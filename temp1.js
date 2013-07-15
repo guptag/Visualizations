@@ -24,7 +24,7 @@
   (function () {      
 
       window.DonutData1 = {
-        name: "Asset allocation",
+        name: "Allocation",
         items: [{
                 name: "Health Care",
                 value: 15,

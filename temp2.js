@@ -41,7 +41,7 @@
       }]; */
 
       window.DonutData1 = {
-        name: "Your asset allocation",
+        name: "Allocation",
         items: [{
                 name: "Health Care",
                 value: 15,

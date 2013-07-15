@@ -5,8 +5,6 @@
   global.donut.chart = function (p_canvas, p_dataManager, p_eventManager) {
     var _this = this;
     var $canvas = this.$canvas = p_canvas;
-    //var position = $canvas.position();
-
     this.dataMgr = p_dataManager;          
     this.context = $canvas[0].getContext("2d");
     this.center = new donut.Point($canvas.width() / 2, $canvas.height() / 2);
@@ -58,7 +56,41 @@
     }        
   };
 
+  _prototype.selectQuadrant = function (p_angle) {
+    //if (p_angle && p_angle === -1) {
+    if (p_angle === -1) {
+      this.dataMgr.drillOut();
+      this.render();
+    } else {
+      var _index = getQuandrantIndexFromAngle(this.dataMgr, p_angle);
+      if (_index !== null) {
+        var _current = this.dataMgr.current;
+        this.dataMgr.drillDown(_current, _index);
+        this.render();
+      }
+    }
+  }
+
   _prototype.clear = function () {
     this.context.clearRect(0, 0, this.$canvas.width(), this.$canvas.height());
   }
+
+  function getQuandrantIndexFromAngle(p_dataMgr, p_angle) {
+    if (p_angle === null) {
+      return null;
+    }
+
+    var _current = p_dataMgr.current;
+    if (_current.items && _current.items.length > 0) {
+      for (var i = 0; i < _current.items.length; ++i) {
+        if (p_angle <= _current.items[i].endAngle) {
+          return i;
+        }
+      }
+    }
+
+    return null;
+  }
+
+
 })(window);
