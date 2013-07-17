@@ -24,15 +24,21 @@
 
   _prototype.drillIn = function(p_index) {
     // drill into the item only if it has children
+    if (this.canDrillIn(p_index)) {
+       this.current = this.current.items[p_index];              
+    }
+    return this.current;
+  }
+
+  _prototype.canDrillIn = function (p_index) {
     var item = this.current;
-    if (item && 
-        item.items && 
-        item.items.length > p_index && 
-        item.items[p_index].items) {
-       this.current = item.items[p_index];       
-       return true; 
-    }    
-    return false;     
+    
+    // can drill into the item only if it has children
+    // returns false for leaf nodes
+    return (item && 
+            item.items && 
+            item.items.length > p_index && 
+            item.items[p_index].items);
   }
 
   _prototype.drillOut = function() {

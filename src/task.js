@@ -66,7 +66,7 @@
           // stagger calling batch jobs
           setTimeout(function() { 
             item.call(global, _this, item_to_process.batchId); 
-          }, index * 45);
+          }, index * 25);
         })
       } else {
         item_to_process.execFn.call(global, this);
