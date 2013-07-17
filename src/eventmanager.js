@@ -20,15 +20,15 @@
     function clickEventHandlder(ev) {
       var angle = getAngleRelativeToCenter(true);
       if (angle !== null) {
-        //console && console.log("click: " + angle);
+        console && console.log("click: " + angle);
         $(global).trigger("event.click", [{angle: angle}]);
       }
     }
 
-    function mouseMoveHandler(ev) {
-     // console && console.log("mouse move[{0}, {1}]".format(ev.clientX, ev.clientY));
+    function mouseMoveHandler(ev) {     
       _mousePtr.X = ev.offsetX;
       _mousePtr.Y = ev.offsetY;
+     // console && console.log("mouse move[{0}, {1}]".format(ev.clientX, ev.clientY));
      // console && console.log("Adj move[{0}, {1}]".format(_mousePtr.X, _mousePtr.Y));
      // console && console.log("Center[{0}, {1}]".format(_center.X, _center.Y));            
     };
@@ -37,7 +37,7 @@
       var _distance = Math.sqrt(Math.pow(_mousePtr.Y - _center.Y, 2) + Math.pow(_mousePtr.X - _center.X, 2));
       var _angle = Math.atan2(_mousePtr.Y - _center.Y, _mousePtr.X - _center.X);
 
-      console && console.log("distance: {0}, angle: {1}".format(_distance, _angle));
+      // console && console.log("distance: {0}, angle: {1}".format(_distance, _angle));
 
       if (_angle < 0) {
         // normalize angle from -180 -> 180 to 0 -> 360

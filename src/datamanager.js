@@ -22,9 +22,14 @@
     this.current = this.data;
   }
 
-  _prototype.drillIn = function(p_item, p_index) {    
-    if (p_item && p_item.items && p_item.items.length > p_index) {
-       this.current = p_item.items[p_index];       
+  _prototype.drillIn = function(p_index) {
+    // drill into the item only if it has children
+    var item = this.current;
+    if (item && 
+        item.items && 
+        item.items.length > p_index && 
+        item.items[p_index].items) {
+       this.current = item.items[p_index];       
        return true; 
     }    
     return false;     
