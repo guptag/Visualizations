@@ -7,6 +7,7 @@
   <script src="animhelper.js" type="text/javascript"></script>
   <script src="task.js" type="text/javascript"></script>
   <script src="datamanager.js" type="text/javascript"></script>
+  <script src="eventmanager.js" type="text/javascript"></script>
   <script src="chart.js" type="text/javascript"></script>
   <style type="text/css">
     body {
@@ -21,8 +22,121 @@
 <body>
   <h1 class="hide">Donut Chart demo</h1>
   <div style="position:absolute; left:170px;top:170px;">
-    <canvas id="canvas" width=400 height=400></canvas>
+    <canvas id="allocationChart" width=400 height=400></canvas>
   </div>
+
+  <script type="text/javascript">
+
+
+    function initializeAllocationChart() {
+
+      var allocationData = {
+        name: "Total Allocation",
+        value: 100,
+        primaryColor: "white",
+        secondaryColor: "white",
+        items: [{
+                name: "Health Care",
+                value: 15,
+                primaryColor: "hsl(145, 63%, 49%)",
+                secondaryColor: "hsla(145, 63%, 49%, 0.5)",
+                items: [{
+                  name: "Primary Care",
+                  value: 4,
+                  primaryColor: "#5DE100",
+                  secondaryColor: "#A0FF5C",
+                },
+                {
+                  name: "Cancer Research",
+                  value: 8,
+                  primaryColor: "#00B060",
+                  secondaryColor: "#5CFFB6",
+                },
+                {
+                  name: "Obesity Research",
+                  value: 3,
+                  primaryColor: "#3D9200",
+                  secondaryColor: "#68f800",
+                }]
+
+            }, {
+                name: "Technology",
+                value: 50,
+                primaryColor: "#F39c12",
+                secondaryColor: "#F7BE63",
+                items: [{
+                  name: "Software",
+                  value: 35,
+                  primaryColor: "#F36312",
+                  secondaryColor: "#F9A87A",
+                  items: [{
+                       name: "Crm",
+                       value: 12,
+                       primaryColor: "#F3AE12",
+                       secondaryColor: "#f8cf73"
+                    },
+                    {
+                       name: "Office Software",
+                       value: 6,
+                       primaryColor: "#B65F38",
+                       secondaryColor: "#d7997d"
+                    },
+                    {
+                       name: "Sharepoint",
+                       value: 4,
+                       primaryColor: "#9E3506",
+                       secondaryColor: "#f99366"
+                    },
+                    {
+                       name: "Communications",
+                       value: 7,
+                       primaryColor: "#F9824C",
+                       secondaryColor: "#fba47d"
+                    },
+                    {
+                       name: "Security Products",
+                       value: 6,
+                       primaryColor: "#f64339",
+                       secondaryColor: "#fbafab"
+                    }]                  
+                 },
+                 {
+                  name: "Hardware",
+                  value: 15,
+                  primaryColor: "#F3C212",
+                  secondaryColor: "#F9DD7A"
+                  
+                 }]
+            }, {
+                name: "Materials",
+                value: 35,
+                primaryColor: "#E74D3C",
+                secondaryColor: "hsla(6, 78%, 57%, 0.5)",
+                items: [{
+                  name: "Coal",
+                  value: 15,
+                  primaryColor: "#DE3A4D",
+                  secondaryColor: "#E77381"
+                 },
+                 {
+                  name: "Metals",
+                  value: 20,
+                  primaryColor: "#E7603C",
+                  secondaryColor: "#ED896E"
+                 }]
+            }]};
+
+      var dataManager = new donut.DataManager(allocationData);
+      var eventManager = new donut.EventManager($("#allocationChart")); 
+      var chart = new donut.Chart($("#allocationChart"), dataManager, eventManager);
+      chart.render();
+    }
+
+    initializeAllocationChart();
+
+    
+
+  </script>
 </body>
 </html>
 

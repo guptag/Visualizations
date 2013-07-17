@@ -2,48 +2,51 @@
         
   global.donut = global.donut || {};
 
-  global.donut.EventManager = function (p_canvas, p_center, p_radius, p_innerRadius) {          
+  global.donut.EventManager = function (p_canvas) {          
+    var _center, _radius, _innerRadius;
     var _this = this;
-    var $canvas = p_canvas;
-    var _center = p_center;
-    var _radius = p_radius;
-    var _canvasOffset = $canvas.position();
-    var _innerRadius = p_innerRadius;
-    var _mousePtr = new Point(0, 0);
+    var $canvas = p_canvas;    
+    var _canvasOffset = $canvas.offset();    
+    var _mousePtr = new donut.Point(0, 0);
 
-    _this.init = function () {
+    _this.init = function (p_center, p_radius, p_innerRadius) {
+       _center = new donut.Point(p_center.X , p_center.Y);
+       _radius = p_radius;
+       _innerRadius = p_innerRadius;
        $canvas.click(clickEventHandlder);
        $canvas.mousemove(mouseMoveHandler);
     };
 
     function clickEventHandlder(ev) {
-      var angle = getHoveredRingAngle(true);
+      var angle = getAngleRelativeToCenter(true);
       if (angle !== null) {
-        console && console.log("click: " + angle);
+        //console && console.log("click: " + angle);
         $(global).trigger("event.click", [{angle: angle}]);
       }
     }
 
     function mouseMoveHandler(ev) {
-      //console.log("mouse move");
-      if(_intervalId) {
-        _mousePtr.X = ev.clientX - _canvasOffset.left;
-        _mousePtr.Y = ev.clientY - _canvasOffset.top;
-      }
+     // console && console.log("mouse move[{0}, {1}]".format(ev.clientX, ev.clientY));
+      _mousePtr.X = ev.offsetX;
+      _mousePtr.Y = ev.offsetY;
+     // console && console.log("Adj move[{0}, {1}]".format(_mousePtr.X, _mousePtr.Y));
+     // console && console.log("Center[{0}, {1}]".format(_center.X, _center.Y));            
     };
 
-    function getHoveredQuadrantAngle (detectInnerCircle) {
-      var _distance = Math.sqrt((_mousePtr.Y - _center.Y) * (_mousePtr.Y - _center.Y) + (_mousePtr.X - _center.X) * (_mousePtr.X - _center.X));
+    function getAngleRelativeToCenter(detectInnerCircle) {
+      var _distance = Math.sqrt(Math.pow(_mousePtr.Y - _center.Y, 2) + Math.pow(_mousePtr.X - _center.X, 2));
       var _angle = Math.atan2(_mousePtr.Y - _center.Y, _mousePtr.X - _center.X);
 
+      console && console.log("distance: {0}, angle: {1}".format(_distance, _angle));
+
       if (_angle < 0) {
-        // 0 - 360
+        // normalize angle from -180 -> 180 to 0 -> 360
         _angle = Math.PI + (_angle + Math.PI);
       }
 
       if (detectInnerCircle && _distance < _innerRadius) {
          return -1; //inner circle
-      } else  if (_distance >= _innerRadius && _distance < _radius) {
+      } else  if (_distance >= _innerRadius && _distance <= _radius) {
         return _angle;
       }
 

@@ -35,8 +35,13 @@
   }
 
   function setupReferences(p_data, p_parent) {
-    if (p_data && p_data.items) {
-       p_data.parent = p_parent;
+    if (!p_data) {
+      return;
+    }
+
+    p_data.parent = p_parent;
+
+    if (p_data && p_data.items) {       
        var total = 0;
 
        $.each(p_data.items, function(index, item) {
