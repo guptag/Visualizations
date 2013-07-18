@@ -225,25 +225,35 @@
 
   function runDrillInAnimations(p_this, p_index) {    
     var _this = p_this;    
-    var task = new donut.Task(), batchId = 200;
+    var task = new donut.Task(), batchId_1 = 100, batchId_2 = 200, batchId_3 = 300;
 
     var _parentDataItem = _this.dataMgr.current;
     var _selectedDataItem =_this.dataMgr.drillIn(p_index);    
 
-    task.addJob(function (p_task) {
-      _this.clear();
-      p_task.notifyJobComplete();
-    });
-    task.addJob(_this.animateRingHandler(null, 15, _selectedDataItem.startAngle, _selectedDataItem.endAngle, _selectedDataItem.primaryColor, null));
-    task.addJob(_this.animateRingHandler(null, 70, _selectedDataItem.endAngle, 2 * Math.PI + _selectedDataItem.startAngle, _selectedDataItem.primaryColor, null));
+    task.addJob(function (p_task) {      
+      _this.drawCircle (0, 2 * Math.PI, "white");
+      for (var i = 0; i < _parentDataItem.items.length; ++i) {
+        var item = _parentDataItem.items[i];
+        if (item.name !== _selectedDataItem.name) {
+          _this.drawRing(item.startAngle, item.endAngle, "white", "white", _this.radius);
+        }
+      }
+      setTimeout(function() { p_task.notifyJobComplete(); }, 100);
+    });   
+    task.addBatchJob(batchId_2, _parentDataItem.items.map(function (item, index) {
+        if (item.name === _selectedDataItem.name) {
+          return _this.animateRingHandler(batchId_2, 15, item.endAngle, 2 * Math.PI + item.startAngle, _selectedDataItem.primaryColor, "white", _this.radius);
+        }
+        return null;
+    }));
     task.addJob(_this.animateCircleWithRadiusHandler(null, null, 0, 2 * Math.PI, _selectedDataItem.primaryColor, _this.radius, _this.radius / 10, false));
     task.addJob(function (p_task) {
       _this.clear();
       p_task.notifyJobComplete();
     });
     task.addJob(_this.animateCircleWithRadiusHandler(null, 70, 0, 2 * Math.PI, _selectedDataItem.primaryColor, 0, _this.innerRadius, false));    
-    task.addBatchJob(batchId, _selectedDataItem.items.map(function (item, index) {
-        return _this.animateRingIn2DHandler(batchId, null, item.startAngle, item.endAngle, item.primaryColor, _selectedDataItem.primaryColor, _this.innerRadius, _this.radius);
+    task.addBatchJob(batchId_3, _selectedDataItem.items.map(function (item, index) {
+        return _this.animateRingIn2DHandler(batchId_3, null, item.startAngle, item.endAngle, item.primaryColor, _selectedDataItem.primaryColor, _this.innerRadius, _this.radius);
     }));
     task.addJob(function (p_task) {
       _this.drawCircle (0, 2 * Math.PI, _selectedDataItem.primaryColor);
