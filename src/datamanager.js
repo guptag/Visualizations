@@ -20,15 +20,7 @@
 
   _prototype.reset = function () {
     this.current = this.data;
-  }
-
-  _prototype.drillIn = function(p_index) {
-    // drill into the item only if it has children
-    if (this.canDrillIn(p_index)) {
-       this.current = this.current.items[p_index];              
-    }
-    return this.current;
-  }
+  } 
 
   _prototype.canDrillIn = function (p_index) {
     var item = this.current;
@@ -41,8 +33,23 @@
             item.items[p_index].items);
   }
 
+  _prototype.drillIn = function(p_index) {
+    // drill into the item only if it has children
+    if (this.canDrillIn(p_index)) {
+       this.current = this.current.items[p_index];              
+    }
+    return this.current;
+  }
+
+  _prototype.canDrillOut = function () {
+    return (this.current.parent !== null);
+  }
+
   _prototype.drillOut = function() {
-    this.current = this.current.parent || this.data;
+    if (this.canDrillOut()) {
+      this.current = this.current.parent
+    }    
+    return this.current;
   }
 
   function setupReferences(p_data, p_parent) {

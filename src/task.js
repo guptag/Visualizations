@@ -43,6 +43,7 @@
 
   _prototype.addBatchJob = function(p_batch_id, p_fnList) {
     if (!this.isCompleted) {      
+      p_fnList = p_fnList.filter(function(e){return e}); //remove nulls from array
       this.jobs.push({
         batchId: p_batch_id,
         execFnList: p_fnList

@@ -70,7 +70,7 @@
     };
   };
 
-  _prototype.animateRingInTwoDimensionsHandler = function (p_batchId, p_delayNotifyMsec, p_angle_from, p_angle_to, p_color, p_center_color, p_radius_from, p_radius_to, p_counterClockwise) {
+  _prototype.animateRingIn2DHandler = function (p_batchId, p_delayNotifyMsec, p_angle_from, p_angle_to, p_color, p_center_color, p_radius_from, p_radius_to, p_counterClockwise) {
     var _this = this;
     
     return function (p_task) {
@@ -81,6 +81,7 @@
         p_radius_to,
         function (a_from, a_temp_to, r_from, r_temp_to) 
         { 
+          _this.drawRing(p_angle_from, p_angle_to, "white", p_center_color, this.radius, p_counterClockwise);
           _this.drawRing(a_from, a_temp_to, p_color, p_center_color, r_temp_to, p_counterClockwise);
         }, 
         function() 
@@ -92,30 +93,7 @@
            }
         });
     };
-  };
-
-  /*_prototype.animateRadiusHandler = function (p_batchId, p_delayNotifyMsec, p_angle_from, p_angle_to, p_color, p_center_color, p_radius_from, p_radius_to, p_counterClockwise) {
-    var _this = this;
-    
-    return function (p_task) {
-      donut.AnimHelper.animate(          
-        p_radius_from, 
-        p_radius_to,
-        function (from, temp_to) 
-        { 
-          //_this.clear();
-          _this.drawRing(p_angle_from, p_angle_to, p_color, p_center_color, temp_to, p_counterClockwise);
-        }, 
-        function() 
-        { 
-           if (p_batchId) {
-            setTimeout(function () { p_task.notifyBatchItemComplete(p_batchId); }, p_delayNotifyMsec || 0); 
-           } else {
-            setTimeout(function () { p_task.notifyJobComplete(); }, p_delayNotifyMsec || 0); 
-           }
-        });
-    };
-  }; */   
+  };  
 
   _prototype.drawCircle = function (p_angle_from, p_angle_to, p_color, p_radius, p_counterClockwise) {    
     var _context = this.context;
@@ -154,7 +132,7 @@
     };
   };
 
-  _prototype.animateCircleRadiusHandler = function (p_batchId, p_delayNotifyMsec, p_angle_from, p_angle_to, p_color, p_radius_from, p_radius_to, p_counterClockwise) {
+  _prototype.animateCircleWithRadiusHandler = function (p_batchId, p_delayNotifyMsec, p_angle_from, p_angle_to, p_color, p_radius_from, p_radius_to, p_counterClockwise) {
     var _this = this;    
     return function (p_task) {
       donut.AnimHelper.animate(          
@@ -210,13 +188,12 @@
 
   _prototype.selectRing = function (p_angle) {
     if (p_angle === -1) {
-      this.dataMgr.drillOut();
-      this.render();
+      if(this.dataMgr.canDrillOut()) {
+        runDrillOutAnimations(this);
+      }
     } else {
       var _index = mapAngleToRingIndex(this.dataMgr, p_angle);
-      if (_index !== null && this.dataMgr.canDrillIn(_index)) {        
-        //this.dataMgr.drillIn(_index)    
-        //this.render();
+      if (_index !== null && this.dataMgr.canDrillIn(_index)) {                
         runDrillInAnimations(this, _index);        
       }
     }
@@ -254,14 +231,14 @@
     });
     task.addJob(_this.animateRingHandler(null, 15, _selectedDataItem.startAngle, _selectedDataItem.endAngle, _selectedDataItem.primaryColor, null));
     task.addJob(_this.animateRingHandler(null, 70, _selectedDataItem.endAngle, 2 * Math.PI + _selectedDataItem.startAngle, _selectedDataItem.primaryColor, null));
-    task.addJob(_this.animateCircleRadiusHandler(null, null, 0, 2 * Math.PI, _selectedDataItem.primaryColor, _this.radius, _this.radius / 10, false));
+    task.addJob(_this.animateCircleWithRadiusHandler(null, null, 0, 2 * Math.PI, _selectedDataItem.primaryColor, _this.radius, _this.radius / 10, false));
     task.addJob(function (p_task) {
       _this.clear();
       p_task.notifyJobComplete();
     });
-    task.addJob(_this.animateCircleRadiusHandler(null, 70, 0, 2 * Math.PI, _selectedDataItem.primaryColor, 0, _this.innerRadius, false));    
+    task.addJob(_this.animateCircleWithRadiusHandler(null, 70, 0, 2 * Math.PI, _selectedDataItem.primaryColor, 0, _this.innerRadius, false));    
     task.addBatchJob(batchId, _selectedDataItem.items.map(function (item, index) {
-        return _this.animateRingInTwoDimensionsHandler(batchId, null, item.startAngle, item.endAngle, item.primaryColor, _selectedDataItem.primaryColor, _this.innerRadius, _this.radius);
+        return _this.animateRingIn2DHandler(batchId, null, item.startAngle, item.endAngle, item.primaryColor, _selectedDataItem.primaryColor, _this.innerRadius, _this.radius);
     }));
     task.addJob(function (p_task) {
       _this.drawCircle (0, 2 * Math.PI, _selectedDataItem.primaryColor);
@@ -270,4 +247,45 @@
     }); 
     task.process();    
   }
+
+  function runDrillOutAnimations(p_this) {    
+    var _this = p_this;    
+    var task = new donut.Task(), batchId_1 = 300, batchId_2 = 400, batchId_3 = 500;
+
+    var _prevDataItem = _this.dataMgr.current;
+    var _currentDataItem =_this.dataMgr.drillOut();    
+
+    task.addJob(function (p_task) {
+      _this.clear();
+      p_task.notifyJobComplete();
+    });
+    task.addBatchJob(batchId_1, _prevDataItem.items.map(function (item, index) {
+        return _this.animateRingIn2DHandler(batchId_1, null, item.startAngle, item.endAngle, item.primaryColor, _prevDataItem.primaryColor, _this.radius, _this.innerRadius);
+    }));
+    task.addJob(_this.animateCircleWithRadiusHandler(null, null, 0, 2 * Math.PI, _prevDataItem.primaryColor, _this.innerRadius, _this.radius, false));
+    task.addJob(function (p_task) {
+      _this.clear();
+      p_task.notifyJobComplete();
+    });
+    task.addJob(_this.animateRingHandler(null, 15, 0, 2 * Math.PI, _prevDataItem.primaryColor, null));    
+    task.addBatchJob(batchId_2, _currentDataItem.items.map(function (item, index) {
+        if (item.name !== _prevDataItem.name) {
+          return _this.animateRingHandler(batchId_2, 15, item.startAngle, item.endAngle, "white", "white", _this.radius);
+        }
+        return null;
+    }));
+    task.addBatchJob(batchId_3, _currentDataItem.items.map(function (item, index) {
+        if (item.name !== _prevDataItem.name) {
+          return _this.animateRingIn2DHandler(batchId_3, 15, item.startAngle, item.endAngle, item.primaryColor, "white", _this.innerRadius, _this.radius);
+        }
+        return null;
+    }));
+    task.addJob(function (p_task) {
+      _this.drawCircle (0, 2 * Math.PI, _currentDataItem.primaryColor);
+      _this.drawText(_currentDataItem.name, _currentDataItem.parent ? "white" : "black");
+      p_task.notifyJobComplete();
+    }); 
+    task.process(); 
+  }
+
 })(window);
