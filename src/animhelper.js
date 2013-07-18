@@ -76,7 +76,7 @@
 
     function animationFrameCallback(p_from, p_to, p_execFn, p_finishCb, p_totalSteps, p_easingFn) {
       var step = 0;         
-      var totalSteps = p_totalSteps !== undefined ? p_totalSteps : 12; 
+      var totalSteps = p_totalSteps !== undefined ? p_totalSteps : 15; 
       var easingFn = p_easingFn || global.donut.EasingHelper.easeInSine;       
 
       return function animLoop() {
@@ -102,7 +102,7 @@
 
     function animationFrameTwoParamsCallback(p_from, p_to, p_from_1, p_to_1, p_execFn, p_finishCb, p_totalSteps, p_easingFn) {
       var step = 0;         
-      var totalSteps = p_totalSteps !== undefined ? p_totalSteps : 12; 
+      var totalSteps = p_totalSteps !== undefined ? p_totalSteps : 15; 
       var easingFn = p_easingFn || global.donut.EasingHelper.easeInSine;       
 
       return function animLoop() {

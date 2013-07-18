@@ -81,8 +81,13 @@
         p_radius_to,
         function (a_from, a_temp_to, r_from, r_temp_to) 
         { 
-          _this.drawRing(p_angle_from, p_angle_to, "white", p_center_color, this.radius, p_counterClockwise);
-          _this.drawRing(a_from, a_temp_to, p_color, p_center_color, r_temp_to, p_counterClockwise);
+          if (p_angle_from < p_angle_to) {            
+            _this.drawRing(a_from, a_temp_to, p_color, p_center_color, r_temp_to, p_counterClockwise);
+          } else {
+            // opposite to sprouting the ring (collapse)
+            _this.drawRing(p_angle_to, p_angle_from, "white", p_center_color, this.radius, p_counterClockwise);
+            _this.drawRing(p_angle_to, a_temp_to, p_color, p_center_color, r_temp_to, p_counterClockwise);
+          }
         }, 
         function() 
         { 
@@ -255,12 +260,9 @@
     var _prevDataItem = _this.dataMgr.current;
     var _currentDataItem =_this.dataMgr.drillOut();    
 
-    task.addJob(function (p_task) {
-      _this.clear();
-      p_task.notifyJobComplete();
-    });
+    
     task.addBatchJob(batchId_1, _prevDataItem.items.map(function (item, index) {
-        return _this.animateRingIn2DHandler(batchId_1, null, item.startAngle, item.endAngle, item.primaryColor, _prevDataItem.primaryColor, _this.radius, _this.innerRadius);
+        return _this.animateRingIn2DHandler(batchId_1, null, item.endAngle, item.startAngle, item.primaryColor, _prevDataItem.primaryColor, _this.radius, _this.innerRadius);
     }));
     task.addJob(_this.animateCircleWithRadiusHandler(null, null, 0, 2 * Math.PI, _prevDataItem.primaryColor, _this.innerRadius, _this.radius, false));
     task.addJob(function (p_task) {
