@@ -31,100 +31,481 @@
     function initializeAllocationChart() {
 
       var allocationData = {
-        name: "Total Allocation",
-        value: 100,
-        primaryColor: "white",
-        secondaryColor: "white",
+        name: "Allocation",
         items: [{
                 name: "Health Care",
-                value: 15,
+                value: 40,
                 primaryColor: "hsl(145, 63%, 49%)",
                 secondaryColor: "hsla(145, 63%, 49%, 0.5)",
                 items: [{
-                  name: "Primary Care",
-                  value: 4,
+                  name: "BioTechnology",
+                  value: 15,
                   primaryColor: "#5DE100",
                   secondaryColor: "#A0FF5C",
+                  items: [{
+                            name: "Alocobra Ltd (ADHD)",
+                            value: 2,
+                            primaryColor: "#5DE100",
+                            secondaryColor: "#A0FF5C",
+                          },
+                          {
+                            name: "Compugen Ltd (CGEN)",
+                            value: 1.5,
+                            primaryColor: "#00B060",
+                            secondaryColor: "#5CFFB6",
+                          },
+                          {
+                            name: "IBio Inc (ILMN)",
+                            value: 6,
+                            primaryColor: "#00B060",
+                            secondaryColor: "#5CFFB6",
+                          },
+                          {
+                            name: "Illuminia Inc (ILMN)",
+                            value: 2,
+                            primaryColor: "#00B060",
+                            secondaryColor: "#5CFFB6",
+                          },
+                          {
+                            name: "Novavax (NVV)",
+                            value: 0.5,
+                            primaryColor: "#00B060",
+                            secondaryColor: "#5CFFB6",
+                          },
+                          {
+                            name: "NeuroSearch(NRS)",
+                            value: 2,
+                            primaryColor: "#00B060",
+                            secondaryColor: "#5CFFB6",
+                          },
+                          {
+                            name: "OxiGene Inc (OXGN)",
+                            value: 0.5,
+                            primaryColor: "#00B060",
+                            secondaryColor: "#5CFFB6",
+                          },
+                          {
+                            name: "Stem Cells Inc (STEM)",
+                            value: 0.5,
+                            primaryColor: "#3D9200",
+                            secondaryColor: "#68f800",
+                          }]
                 },
                 {
-                  name: "Cancer Research",
+                  name: "Drug Manufacturers",
                   value: 8,
                   primaryColor: "#00B060",
                   secondaryColor: "#5CFFB6",
+                  items: [{
+                            name: "Cipla Ltd (CIPLA)",
+                            value: 5,
+                            primaryColor: "#5DE100",
+                            secondaryColor: "#A0FF5C",
+                          },
+                          {
+                            name: "GlaxoSmithKline Pharma (GLAXO)",
+                            value: 1,
+                            primaryColor: "#00B060",
+                            secondaryColor: "#5CFFB6",
+                          },
+                          {
+                            name: "Merck & Co (MERCK)",
+                            value: 2,
+                            primaryColor: "#3D9200",
+                            secondaryColor: "#68f800",
+                          }]
                 },
                 {
-                  name: "Obesity Research",
-                  value: 3,
+                  name: "Health Care Plans",
+                  value: 5,
                   primaryColor: "#3D9200",
                   secondaryColor: "#68f800",
+                  items: [{
+                            name: "Aetna (AET)",
+                            value: 0.4,
+                            primaryColor: "#5DE100",
+                            secondaryColor: "#A0FF5C",
+                          },
+                          {
+                            name: "Cigna Corp (CI)",
+                            value: 1,
+                            primaryColor: "#00B060",
+                            secondaryColor: "#5CFFB6",
+                          },
+                          {
+                            name: "Express Scripts (ESRX)",
+                            value: 1,
+                            primaryColor: "#3D9200",
+                            secondaryColor: "#68f800",
+                          },
+                          {
+                            name: "Humana (HUM)",
+                            value: 0.6,
+                            primaryColor: "#5DE100",
+                            secondaryColor: "#A0FF5C",
+                          },
+                          {
+                            name: "Health Net, Inc (HUM)",
+                            value: 1,
+                            primaryColor: "#00B060",
+                            secondaryColor: "#5CFFB6",
+                          },
+                          {
+                            name: "WellPoint (WLP)",
+                            value: 1,
+                            primaryColor: "#3D9200",
+                            secondaryColor: "#68f800",
+                          }]
+                },
+                {
+                  name: "Drugs - Generic",
+                  value: 4,
+                  primaryColor: "#00B060",
+                  secondaryColor: "#5CFFB6",
+                  items: [{
+                            name: "Actavis Inc (ACT)",
+                            value: 0.2,
+                            primaryColor: "#5DE100",
+                            secondaryColor: "#A0FF5C",
+                          },
+                          {
+                            name: "Akorn Inc (AKRX)",
+                            value: 0.6,
+                            primaryColor: "#00B060",
+                            secondaryColor: "#5CFFB6",
+                          },
+                          {
+                            name: "Biomm S.A (ESRX)",
+                            value: 1.2,
+                            primaryColor: "#3D9200",
+                            secondaryColor: "#68f800",
+                          },
+                          {
+                            name: "Evotec (EVT)",
+                            value: 1.5,
+                            primaryColor: "#5DE100",
+                            secondaryColor: "#A0FF5C",
+                          },
+                          {
+                            name: "Merck (MRK)",
+                            value: 0.5,
+                            primaryColor: "#00B060",
+                            secondaryColor: "#5CFFB6",
+                          }]
+                },
+                {
+                  name: "Hospitals",
+                  value: 6,
+                  primaryColor: "#3D9200",
+                  secondaryColor: "#68f800",
+                  items: [{
+                            name: "Apollo (APOLLOHOS)",
+                            value: 3,
+                            primaryColor: "#5DE100",
+                            secondaryColor: "#A0FF5C",
+                          },
+                          {
+                            name: "CardioNet, Inc (C25)",
+                            value: 2,
+                            primaryColor: "#00B060",
+                            secondaryColor: "#5CFFB6",
+                          },
+                          {
+                            name: "Hanger Inc",
+                            value: 0.25,
+                            primaryColor: "#3D9200",
+                            secondaryColor: "#68f800",
+                          },
+                          {
+                            name: "MedNax",
+                            value: 0.25,
+                            primaryColor: "#5DE100",
+                            secondaryColor: "#A0FF5C",
+                          },
+                          {
+                            name: "Omnicare, Inc",
+                            value: 0.4,
+                            primaryColor: "#00B060",
+                            secondaryColor: "#5CFFB6",
+                          },
+                          {
+                            name: "Vision Group Holdings Ltd",
+                            value: 0.1,
+                            primaryColor: "#3D9200",
+                            secondaryColor: "#68f800",
+                          }]
+                },
+                {
+                  name: "Home Health Care",
+                  value: 2,
+                  primaryColor: "#00B060",
+                  secondaryColor: "#5CFFB6",
+                  items: [{
+                            name: "Chemed Corp (CHE)",
+                            value: 0.6,
+                            primaryColor: "#5DE100",
+                            secondaryColor: "#A0FF5C",
+                          },
+                          {
+                            name: "Electromed, Inc",
+                            value: 0.6,
+                            primaryColor: "#00B060",
+                            secondaryColor: "#5CFFB6",
+                          },
+                          {
+                            name: "LHC Group, Inc",
+                            value: 0.8,
+                            primaryColor: "#3D9200",
+                            secondaryColor: "#68f800",
+                          }]
                 }]
 
             }, {
                 name: "Technology",
-                value: 50,
+                value: 35,
                 primaryColor: "#F39c12",
                 secondaryColor: "#F7BE63",
                 items: [{
-                  name: "Software",
-                  value: 35,
+                  name: "Application Software",
+                  value: 20,
                   primaryColor: "#F36312",
                   secondaryColor: "#F9A87A",
                   items: [{
-                       name: "Crm",
-                       value: 12,
+                       name: "Adobe Systems (ADBE)",
+                       value: 5,
                        primaryColor: "#F3AE12",
                        secondaryColor: "#f8cf73"
                     },
                     {
-                       name: "Office Software",
-                       value: 6,
+                       name: "BMC Software, Inc(BMC)",
+                       value: 2,
                        primaryColor: "#B65F38",
                        secondaryColor: "#d7997d"
                     },
                     {
-                       name: "Sharepoint",
-                       value: 4,
+                       name: "F5 Metworks (FFIV)",
+                       value: 3,
                        primaryColor: "#9E3506",
                        secondaryColor: "#f99366"
                     },
                     {
-                       name: "Communications",
-                       value: 7,
+                       name: "Real Networks Inc (RNWK)",
+                       value: 0.5,
                        primaryColor: "#F9824C",
                        secondaryColor: "#fba47d"
                     },
                     {
-                       name: "Security Products",
-                       value: 6,
+                       name: "Red Hat, Inc (RHT)",
+                       value: 0.5,
                        primaryColor: "#f64339",
                        secondaryColor: "#fbafab"
+                    },
+                    {
+                       name: "Rosetta Stone (RST)",
+                       value: 2,
+                       primaryColor: "#9E3506",
+                       secondaryColor: "#f99366"
+                    },
+                    {
+                       name: "Splunk (SPLK)",
+                       value: 7,
+                       primaryColor: "#F9824C",
+                       secondaryColor: "#fba47d"
                     }]                  
                  },
                  {
-                  name: "Hardware",
-                  value: 15,
+                  name: "Business Software",
+                  value: 3,
                   primaryColor: "#F3C212",
-                  secondaryColor: "#F9DD7A"
-                  
+                  secondaryColor: "#F9DD7A",
+                  items: [{
+                        name: "Amdocs Ltd",
+                        value: 0.2,
+                        primaryColor: "#5DE100",
+                        secondaryColor: "#A0FF5C",
+                      },
+                      {
+                        name: "CA, Inc",
+                        value: 0.1,
+                        primaryColor: "#00B060",
+                        secondaryColor: "#5CFFB6",
+                      },
+                      {
+                        name: "Citrix Systems",
+                        value: 0.5,
+                        primaryColor: "#3D9200",
+                        secondaryColor: "#68f800",
+                      },
+                      {
+                        name: "Iron Mountain Inc",
+                        value: 0.8,
+                        primaryColor: "#00B060",
+                        secondaryColor: "#5CFFB6",
+                      },
+                      {
+                        name: "Oracle Corporation",
+                        value: 1,
+                        primaryColor: "#3D9200",
+                        secondaryColor: "#68f800",
+                      },
+                      {
+                        name: "Xerox, Ltd",
+                        value: 0.4,
+                        primaryColor: "#3D9200",
+                        secondaryColor: "#68f800",
+                      }]                  
+                 },
+                 {
+                  name: "Internet Software",
+                  value: 7,
+                  primaryColor: "#F3C212",
+                  secondaryColor: "#F9DD7A",
+                  items: [{
+                        name: "Angie's List",
+                        value: 0.5,
+                        primaryColor: "#5DE100",
+                        secondaryColor: "#A0FF5C",
+                      },
+                      {
+                        name: "Salesforce.com",
+                        value: 4,
+                        primaryColor: "#00B060",
+                        secondaryColor: "#5CFFB6",
+                      },
+                      {
+                        name: "Google",
+                        value: 1.7,
+                        primaryColor: "#3D9200",
+                        secondaryColor: "#68f800",
+                      },
+                      {
+                        name: "NetEase",
+                        value: 0.4,
+                        primaryColor: "#00B060",
+                        secondaryColor: "#5CFFB6",
+                      },
+                      {
+                        name: "Zillow, Inc",
+                        value: 0.4,
+                        primaryColor: "#3D9200",
+                        secondaryColor: "#68f800",
+                      }]                  
+                 },
+                 {
+                  name: "Personal Computers",
+                  value: 3,
+                  primaryColor: "#F3C212",
+                  secondaryColor: "#F9DD7A",
+                  items: [{
+                        name: "Dell",
+                        value: 1,
+                        primaryColor: "#5DE100",
+                        secondaryColor: "#A0FF5C",
+                      },
+                      {
+                        name: "HP",
+                        value: 1,
+                        primaryColor: "#00B060",
+                        secondaryColor: "#5CFFB6",
+                      },
+                      {
+                        name: "Lenovo",
+                        value: 1,
+                        primaryColor: "#3D9200",
+                        secondaryColor: "#68f800",
+                      }]                  
+                 },
+                 {
+                  name: "Semiconductor",
+                  value: 2,
+                  primaryColor: "#F3C212",
+                  secondaryColor: "#F9DD7A",
+                  items: [{
+                        name: "ARM",
+                        value: 1,
+                        primaryColor: "#5DE100",
+                        secondaryColor: "#A0FF5C",
+                      },
+                      {
+                        name: "AMD",
+                        value: 0.2,
+                        primaryColor: "#00B060",
+                        secondaryColor: "#5CFFB6",
+                      },
+                      {
+                        name: "Intel",
+                        value: 0.7,
+                        primaryColor: "#3D9200",
+                        secondaryColor: "#68f800",
+                      },                      
+                      {
+                        name: "NetLogic",
+                        value: 0.1,
+                        primaryColor: "#3D9200",
+                        secondaryColor: "#68f800",
+                      }]                  
                  }]
-            }, {
-                name: "Materials",
-                value: 35,
+            },
+            {
+                name: "Financials",
+                value: 25,
                 primaryColor: "#E74D3C",
                 secondaryColor: "hsla(6, 78%, 57%, 0.5)",
                 items: [{
-                  name: "Coal",
-                  value: 15,
+                  name: "Asset Management",
+                  value: 20,
                   primaryColor: "#DE3A4D",
-                  secondaryColor: "#E77381"
+                  secondaryColor: "#E77381",
+                  items: [{
+                        name: "Blackrock, Inc",
+                        value: 12,
+                        primaryColor: "#5DE100",
+                        secondaryColor: "#A0FF5C",
+                      },
+                      {
+                        name: "Janus Capital Group",
+                        value: 2,
+                        primaryColor: "#00B060",
+                        secondaryColor: "#5CFFB6",
+                      },
+                      {
+                        name: "Legg Mason, Inc",
+                        value: 5,
+                        primaryColor: "#3D9200",
+                        secondaryColor: "#68f800",
+                      },                      
+                      {
+                        name: "Solar Capital",
+                        value: 1,
+                        primaryColor: "#3D9200",
+                        secondaryColor: "#68f800",
+                      }]   
                  },
                  {
-                  name: "Metals",
-                  value: 20,
+                  name: "Investment Brokers",
+                  value: 5,
                   primaryColor: "#E7603C",
-                  secondaryColor: "#ED896E"
+                  secondaryColor: "#ED896E",
+                  items: [{
+                        name: "Charles Schwab Corp",
+                        value: 3.9,
+                        primaryColor: "#5DE100",
+                        secondaryColor: "#A0FF5C",
+                      },
+                      {
+                        name: "E*Trade Financial Corp",
+                        value: 1,
+                        primaryColor: "#00B060",
+                        secondaryColor: "#5CFFB6",
+                      },
+                      {
+                        name: "Paulson Capital Corp",
+                        value: 0.1,
+                        primaryColor: "#00B060",
+                        secondaryColor: "#5CFFB6",
+                      }]   
                  }]
-            }]};
+            }]}; 
 
       var dataManager = new donut.DataManager(allocationData);
       var eventManager = new donut.EventManager($("#allocationChart")); 
