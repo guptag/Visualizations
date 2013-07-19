@@ -22,7 +22,8 @@
   })();
 
   (function () {      
-
+      //http://biz.yahoo.com/p
+      
       window.DonutData1 = {
         name: "Allocation",
         items: [{
@@ -31,20 +32,80 @@
                 primaryColor: "hsl(145, 63%, 49%)",
                 secondaryColor: "hsla(145, 63%, 49%, 0.5)",
                 items: [{
-                  name: "Primary Care",
-                  value: 4,
+                  name: "BioTechnology",
+                  value: 2,
                   primaryColor: "#5DE100",
                   secondaryColor: "#A0FF5C",
+                  items: [{
+                            name: "Alocobra Ltd (ADHD)",
+                            value: 0.5,
+                            primaryColor: "#5DE100",
+                            secondaryColor: "#A0FF5C",
+                          },
+                          {
+                            name: "Compugen Ltd (CGEN)",
+                            value: 0.9,
+                            primaryColor: "#00B060",
+                            secondaryColor: "#5CFFB6",
+                          },
+                          {
+                            name: "Stem Cells Inc (STEM)",
+                            value: 0.6,
+                            primaryColor: "#3D9200",
+                            secondaryColor: "#68f800",
+                          }]
                 },
                 {
-                  name: "Cancer Research",
-                  value: 8,
+                  name: "Drug Manufacturers",
+                  value: 3,
+                  primaryColor: "#00B060",
+                  secondaryColor: "#5CFFB6",
+                  items: [{
+                            name: "Cipla Ltd (CIPLA)",
+                            value: 1,
+                            primaryColor: "#5DE100",
+                            secondaryColor: "#A0FF5C",
+                          },
+                          {
+                            name: "GlaxoSmithKline Pharma (GLAXO)",
+                            value: 1,
+                            primaryColor: "#00B060",
+                            secondaryColor: "#5CFFB6",
+                          },
+                          {
+                            name: "Merck & Co (MERCK)",
+                            value: 1,
+                            primaryColor: "#3D9200",
+                            secondaryColor: "#68f800",
+                          }]
+                },
+                {
+                  name: "Health Care Plans",
+                  value: 1,
+                  primaryColor: "#3D9200",
+                  secondaryColor: "#68f800",
+                },
+                {
+                  name: "Drugs - Generic",
+                  value: 2,
                   primaryColor: "#00B060",
                   secondaryColor: "#5CFFB6",
                 },
                 {
-                  name: "Obesity Research",
-                  value: 3,
+                  name: "Hospitals",
+                  value: 4,
+                  primaryColor: "#3D9200",
+                  secondaryColor: "#68f800",
+                },
+                {
+                  name: "Home Health Care",
+                  value: 1,
+                  primaryColor: "#00B060",
+                  secondaryColor: "#5CFFB6",
+                },
+                {
+                  name: "Diagnostic Tools",
+                  value: 2,
                   primaryColor: "#3D9200",
                   secondaryColor: "#68f800",
                 }]
@@ -55,7 +116,7 @@
                 primaryColor: "#F39c12",
                 secondaryColor: "#F7BE63",
                 items: [{
-                  name: "Software",
+                  name: "Application Software",
                   value: 35,
                   primaryColor: "#F36312",
                   secondaryColor: "#F9A87A",
