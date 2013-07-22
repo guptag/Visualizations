@@ -1,0 +1,197 @@
+<html>
+<head>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.0/jquery.min.js"></script>
+  <style type="text/css">
+    .container_1 {      
+      width:1200px;
+      margin: 40px;
+    }
+
+    .block {
+      width: 85px;
+      height: 50px;
+      border: 1px solid black;
+      margin: 0 5px;
+      float:left;
+    }
+
+    .root {
+      magin: 0;
+    }
+
+    .child {
+      margin: 20px 0px 20px 50px;
+    }
+
+    .leaves {
+      margin-right: 60px;
+      float:left;
+    }    
+
+    .leaves:before {
+      content: "---->";
+      font-weight: bold;      
+      display: block;
+      margin: 15px 20px;
+      width: 40px;
+      float:left;
+    }
+
+    .root:after,
+    .child:after {
+      clear:both;
+      content:"";      
+      display: table;
+    }
+  </style>  
+</head>
+<body>
+  <div class="container_1">
+      <div class="root">
+        <div class="block" primary="hsl(145, 63%, 49%)" secondary="#2ECC70"></div>
+      </div>
+      <div class="child">
+        <div class="block" primary="hsl(40, 77%, 57%)" secondary="#27ae60"></div>
+        <div class="leaves">
+          <div class="block" primary="" secondary=""></div>
+          <div class="block" primary="" secondary=""></div>
+          <div class="block" primary="" secondary=""></div>
+          <div class="block" primary="" secondary=""></div>
+          <div class="block" primary="" secondary=""></div>
+          <div class="block" primary="" secondary=""></div>
+          <div class="block" primary="" secondary=""></div>
+          <div class="block" primary="" secondary=""></div>
+        </div>       
+      </div>
+      <div class="child">
+        <div class="block" primary="hsl(65, 77%, 57%)" secondary="#16a085"></div>
+        <div class="leaves">
+          <div class="block" primary="" secondary=""></div>
+          <div class="block" primary="" secondary=""></div>
+          <div class="block" primary="" secondary=""></div>
+        </div>
+      </div>
+      <div class="child">
+        <div class="block" primary="hsl(85, 77%, 57%)" secondary="#1abc9c"></div>
+        <div class="leaves">          
+          <div class="block" primary="" secondary=""></div>
+          <div class="block" primary="" secondary=""></div>
+          <div class="block" primary="" secondary=""></div>
+          <div class="block" primary="" secondary=""></div>
+          <div class="block" primary="" secondary=""></div>
+        </div>
+      </div>
+      <div class="child">
+        <div class="block" primary="hsl(130, 77%, 57%)" secondary="#27ae60"></div>
+        <div class="leaves">         
+          <div class="block" primary="" secondary=""></div>
+          <div class="block" primary="" secondary=""></div>
+          <div class="block" primary="" secondary=""></div>
+          <div class="block" primary="" secondary=""></div>
+        </div>
+      </div>
+      <div class="child">
+        <div class="block" primary="hsl(160, 77%, 57%)" secondary="#27ae60"></div>
+        <div class="leaves">
+          <div class="block" primary="" secondary=""></div>
+          <div class="block" primary="" secondary=""></div>
+          <div class="block" primary="" secondary=""></div>
+          <div class="block" primary="" secondary=""></div>
+          <div class="block" primary="" secondary=""></div>
+          <div class="block" primary="" secondary=""></div>
+          <div class="block" primary="" secondary=""></div>          
+        </div>
+      </div>
+      <div class="child">
+        <div class="block" primary="hsl(185, 77%, 57%)" secondary="#27ae60"></div>
+        <div class="leaves">                   
+          <div class="block" primary="" secondary=""></div>
+          <div class="block" primary="" secondary=""></div>
+          <div class="block" primary="" secondary=""></div>
+        </div>
+      </div>
+  </div>
+  <div class="container_1">
+      <div class="root">
+        <div class="block" primary="#F39c12" secondary"#F39c12"></div>
+      </div>
+      <div class="child">
+        <div class="block" primary="" secondary=""></div>
+        <div class="leaves">
+          <div class="block" primary="" secondary=""></div>
+          <div class="block" primary="" secondary=""></div>
+          <div class="block" primary="" secondary=""></div>
+          <div class="block" primary="" secondary=""></div>
+          <div class="block" primary="" secondary=""></div>
+          <div class="block" primary="" secondary=""></div>
+          <div class="block" primary="" secondary=""></div>
+        </div>       
+      </div>
+      <div class="child">
+        <div class="block" primary="" secondary=""></div>
+        <div class="leaves">
+          <div class="block" primary="" secondary=""></div>
+          <div class="block" primary="" secondary=""></div>
+          <div class="block" primary="" secondary=""></div>
+          <div class="block" primary="" secondary=""></div>
+          <div class="block" primary="" secondary=""></div>
+          <div class="block" primary="" secondary=""></div>
+        </div>
+      </div>
+      <div class="child">
+        <div class="block" primary="" secondary=""></div>
+        <div class="leaves">          
+          <div class="block" primary="" secondary=""></div>
+          <div class="block" primary="" secondary=""></div>
+          <div class="block" primary="" secondary=""></div>
+          <div class="block" primary="" secondary=""></div>
+          <div class="block" primary="" secondary=""></div>
+        </div>
+      </div>
+      <div class="child">
+        <div class="block" primary="" secondary=""></div>
+        <div class="leaves">         
+          <div class="block" primary="" secondary=""></div>
+          <div class="block" primary="" secondary=""></div>
+          <div class="block" primary="" secondary=""></div>
+        </div>
+      </div>
+      <div class="child">
+        <div class="block" primary="" secondary=""></div>
+        <div class="leaves">
+          <div class="block" primary="" secondary=""></div>
+          <div class="block" primary="" secondary=""></div>
+          <div class="block" primary="" secondary=""></div>
+          <div class="block" primary="" secondary=""></div>       
+        </div>
+      </div>      
+  </div>
+  <div class="container_1">
+      <div class="root">
+        <div class="block" primary="#E74D3C" secondary"#E74D3C"></div>
+      </div>
+      <div class="child">
+        <div class="block" primary="" secondary=""></div>
+        <div class="leaves">
+          <div class="block" primary="" secondary=""></div>
+          <div class="block" primary="" secondary=""></div>
+          <div class="block" primary="" secondary=""></div>
+          <div class="block" primary="" secondary=""></div>
+        </div>       
+      </div>
+      <div class="child">
+        <div class="block" primary="" secondary=""></div>
+        <div class="leaves">
+          <div class="block" primary="" secondary=""></div>
+          <div class="block" primary="" secondary=""></div>
+          <div class="block" primary="" secondary=""></div>
+        </div>
+      </div>           
+  </div>
+  <script type="text/javascript">
+     $.each($("div.block"), function() {
+        $(this).attr("style", "background-color:" + ($(this).attr("primary") || "white"));
+      });
+  </script>
+</body>
+</html>
