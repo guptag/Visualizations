@@ -277,21 +277,21 @@
     task.addJob(_this.animateCircleWithRadiusHandler(null, null, 0, 2 * Math.PI, _prevDataItem.primaryColor, _this.innerRadius, _this.radius, false));
     task.addJob(function (p_task) {
       _this.clear();
-      p_task.notifyJobComplete();
-    });
-    task.addJob(_this.animateRingHandler(null, 15, 0, 2 * Math.PI, _prevDataItem.primaryColor, null));    
-    task.addBatchJob(batchId_2, _currentDataItem.items.map(function (item, index) {
+      _this.drawRing(0, 2 * Math.PI, _prevDataItem.primaryColor, "white", _this.radius);
+      setTimeout(function() { p_task.notifyJobComplete(); }, 100);
+    });        
+    _currentDataItem.items.map(function (item, index) {
         if (item.name !== _prevDataItem.name) {
-          return _this.animateRingHandler(batchId_2, 15, item.startAngle, item.endAngle, "white", "white", _this.radius);
+          task.addJob(_this.animateRingHandler(null, 0, item.startAngle, item.endAngle, "white", "white", _this.radius));
         }
         return null;
-    }));
-    task.addBatchJob(batchId_3, _currentDataItem.items.map(function (item, index) {
+    });       
+    _currentDataItem.items.map(function (item, index) {
         if (item.name !== _prevDataItem.name) {
-          return _this.animateRingIn2DHandler(batchId_3, 15, item.startAngle, item.endAngle, item.primaryColor, "white", _this.innerRadius, _this.radius);
+          task.addJob(_this.animateRingHandler(null, 0, item.startAngle, item.endAngle, item.primaryColor, "white", _this.radius));
         }
         return null;
-    }));
+    })
     task.addJob(function (p_task) {
       _this.drawCircle (0, 2 * Math.PI, _currentDataItem.primaryColor);
       _this.drawText(_currentDataItem.name, _currentDataItem.parent ? "white" : "black");
