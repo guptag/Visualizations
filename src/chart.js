@@ -286,7 +286,7 @@
       setTimeout(function() { p_task.notifyJobComplete(); }, 100);
     });        
     
-    var animateSteps = parseInt(12/(_currentDataItem.items.length - 1));
+    var animateSteps = parseInt(15/(_currentDataItem.items.length - 1));
     _currentDataItem.items.map(function (item, index) {
         if (item.name !== _prevDataItem.name) {
           task.addJob(_this.animateRingHandler(null, 0, item.endAngle, item.startAngle, "white", "white", _this.radius, true, animateSteps));
