@@ -43,7 +43,11 @@
     _context.moveTo(this.center.X, this.center.Y);
     _context.fillStyle = p_center_color || this.innerCircleColor;     
     _context.lineWidth = 1;   
-    _context.arc(this.center.X, this.center.Y, this.innerRadius, p_angle_from - 0.3, p_angle_to + 0.3, p_counterClockwise || false);
+    if (p_counterClockwise) {
+      _context.arc(this.center.X, this.center.Y, this.innerRadius, p_angle_from + 0.3, p_angle_to - 0.3, true);
+    } else {
+      _context.arc(this.center.X, this.center.Y, this.innerRadius, p_angle_from - 0.3, p_angle_to + 0.3, false);
+    }
     _context.closePath();
     _context.fill();    
   }
@@ -285,13 +289,13 @@
     var animateSteps = parseInt(12/(_currentDataItem.items.length - 1));
     _currentDataItem.items.map(function (item, index) {
         if (item.name !== _prevDataItem.name) {
-          task.addJob(_this.animateRingHandler(null, 0, item.startAngle, item.endAngle, "white", "white", _this.radius, false, animateSteps));
+          task.addJob(_this.animateRingHandler(null, 0, item.endAngle, item.startAngle, "white", "white", _this.radius, true, animateSteps));
         }
         return null;
     });       
     _currentDataItem.items.map(function (item, index) {
         if (item.name !== _prevDataItem.name) {
-          task.addJob(_this.animateRingHandler(null, 0, item.startAngle, item.endAngle, item.primaryColor, "white", _this.radius, false, animateSteps));
+          task.addJob(_this.animateRingHandler(null, 0, item.endAngle, item.startAngle, item.primaryColor, "white", _this.radius, true, animateSteps));
         }
         return null;
     })
