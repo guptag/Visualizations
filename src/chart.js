@@ -48,7 +48,7 @@
     _context.fill();    
   }
 
-  _prototype.animateRingHandler = function (p_batchId, p_delayNotifyMsec, p_angle_from, p_angle_to, p_color, p_center_color, p_radius, p_counterClockwise) {
+  _prototype.animateRingHandler = function (p_batchId, p_delayNotifyMsec, p_angle_from, p_angle_to, p_color, p_center_color, p_radius, p_counterClockwise, p_steps) {
     var _this = this;
     
     return function (p_task) {
@@ -66,7 +66,8 @@
            } else {
             setTimeout(function () { p_task.notifyJobComplete(); }, p_delayNotifyMsec || 0); 
            }
-        });
+        },
+        p_steps);
     };
   };
 
@@ -280,18 +281,21 @@
       _this.drawRing(0, 2 * Math.PI, _prevDataItem.primaryColor, "white", _this.radius);
       setTimeout(function() { p_task.notifyJobComplete(); }, 100);
     });        
+    
+    var animateSteps = parseInt(12/(_currentDataItem.items.length - 1));
     _currentDataItem.items.map(function (item, index) {
         if (item.name !== _prevDataItem.name) {
-          task.addJob(_this.animateRingHandler(null, 0, item.startAngle, item.endAngle, "white", "white", _this.radius));
+          task.addJob(_this.animateRingHandler(null, 0, item.startAngle, item.endAngle, "white", "white", _this.radius, false, animateSteps));
         }
         return null;
     });       
     _currentDataItem.items.map(function (item, index) {
         if (item.name !== _prevDataItem.name) {
-          task.addJob(_this.animateRingHandler(null, 0, item.startAngle, item.endAngle, item.primaryColor, "white", _this.radius));
+          task.addJob(_this.animateRingHandler(null, 0, item.startAngle, item.endAngle, item.primaryColor, "white", _this.radius, false, animateSteps));
         }
         return null;
     })
+    
     task.addJob(function (p_task) {
       _this.drawCircle (0, 2 * Math.PI, _currentDataItem.primaryColor);
       _this.drawText(_currentDataItem.name, _currentDataItem.parent ? "white" : "black");
