@@ -284,21 +284,36 @@
       _this.clear();
       _this.drawRing(0, 2 * Math.PI, _prevDataItem.primaryColor, "white", _this.radius);
       setTimeout(function() { p_task.notifyJobComplete(); }, 100);
-    });        
+    });
     
-    var animateSteps = parseInt(15/(_currentDataItem.items.length - 1));
-    _currentDataItem.items.map(function (item, index) {
-        if (item.name !== _prevDataItem.name) {
-          task.addJob(_this.animateRingHandler(null, 0, item.endAngle, item.startAngle, "white", "white", _this.radius, true, animateSteps));
-        }
-        return null;
-    });       
-    _currentDataItem.items.map(function (item, index) {
-        if (item.name !== _prevDataItem.name) {
-          task.addJob(_this.animateRingHandler(null, 0, item.endAngle, item.startAngle, item.primaryColor, "white", _this.radius, true, animateSteps));
-        }
-        return null;
-    })
+
+    $.each(_currentDataItem.items, function(index, item) {
+      if (item.name === _prevDataItem.name) {
+        // erase all rings except the zoomout node (in anticlockwise direction)
+        task.addJob(_this.animateRingHandler(null, 30, Math.PI * 2 + item.startAngle, item.endAngle, "white", "white", _this.radius, true, 20));
+      }
+    });
+
+    //shuffle the items so the rings are rendered in sequence from the selected ring
+    // [a, b, c, d, e] -> zooiming out on 'c' -> draw [b, a, e, d] in anticlockwise
+    var shuffledArray = [], selIndex = -1;
+    $.each(_currentDataItem.items, function (index, item) {
+      if (item.name === _prevDataItem.name) { 
+        selIndex = index;
+      } else {
+        if (selIndex == -1) {
+            //add new item to the front
+            shuffledArray.unshift(item); 
+        } else {
+            // add new items at the index of the selected element 
+            shuffledArray.splice(selIndex, 0, item);
+        } 
+      }
+    });
+
+    $.each(shuffledArray, function(index, item) {
+      task.addJob(_this.animateRingHandler(null, 0, item.endAngle, item.startAngle, item.primaryColor, "white", _this.radius, true, 5));      
+    });
     
     task.addJob(function (p_task) {
       _this.drawCircle (0, 2 * Math.PI, _currentDataItem.primaryColor);
