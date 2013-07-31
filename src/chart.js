@@ -284,21 +284,33 @@
       _this.clear();
       _this.drawRing(0, 2 * Math.PI, _prevDataItem.primaryColor, "white", _this.radius);
       setTimeout(function() { p_task.notifyJobComplete(); }, 100);
-    });
-    
+    });    
 
     $.each(_currentDataItem.items, function(index, item) {
       if (item.name === _prevDataItem.name) {
         // erase all rings except the zoomout node (in anticlockwise direction)
         task.addJob(_this.animateRingHandler(null, 30, Math.PI * 2 + item.startAngle, item.endAngle, "white", "white", _this.radius, true, 20));
       }
-    });
+    });    
 
-    //shuffle the items so the rings are rendered in sequence from the selected ring
-    // [a, b, c, d, e] -> zooiming out on 'c' -> draw [b, a, e, d] in anticlockwise
+    $.each(reorderItemsToRenderSequentially(_currentDataItem.items, _prevDataItem.name), function(index, item) {
+      task.addJob(_this.animateRingHandler(null, 0, item.endAngle, item.startAngle, item.primaryColor, "white", _this.radius, true, 5));      
+    });
+    
+    task.addJob(function (p_task) {
+      _this.drawCircle (0, 2 * Math.PI, _currentDataItem.primaryColor);
+      _this.drawText(_currentDataItem.name, _currentDataItem.parent ? "white" : "black");
+      p_task.notifyJobComplete();
+    }); 
+    task.process(); 
+  }
+
+  //shuffle the items so the rings are rendered in sequence from the selected ring
+  // [a, b, c, d, e] -> zooiming out on 'c' -> draw [b, a, e, d] in anticlockwise
+  function reorderItemsToRenderSequentially(items, prevItemName) {    
     var shuffledArray = [], selIndex = -1;
-    $.each(_currentDataItem.items, function (index, item) {
-      if (item.name === _prevDataItem.name) { 
+    $.each(items, function (index, item) {
+      if (item.name === prevItemName) { 
         selIndex = index;
       } else {
         if (selIndex == -1) {
@@ -311,16 +323,7 @@
       }
     });
 
-    $.each(shuffledArray, function(index, item) {
-      task.addJob(_this.animateRingHandler(null, 0, item.endAngle, item.startAngle, item.primaryColor, "white", _this.radius, true, 5));      
-    });
-    
-    task.addJob(function (p_task) {
-      _this.drawCircle (0, 2 * Math.PI, _currentDataItem.primaryColor);
-      _this.drawText(_currentDataItem.name, _currentDataItem.parent ? "white" : "black");
-      p_task.notifyJobComplete();
-    }); 
-    task.process(); 
+    return shuffledArray;
   }
 
 })(window);
