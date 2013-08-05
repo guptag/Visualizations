@@ -10,7 +10,7 @@
  Demo: <a href="http://guptag.github.io/DonutChart/test.html" target="_blank">http://guptag.github.io/DonutChart/test.html</a>
 </h5>
 
-![ScreenShot](https://raw.github.com/guptag/DonutChart/img/donutchart.png)
+![ScreenShot](http://guptag.github.io/DonutChart/img/donutchart.png)
 
 <p>
 	<h3>Task List</h3>
