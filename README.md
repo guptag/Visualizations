@@ -10,6 +10,8 @@
  Demo: <a href="http://guptag.github.io/DonutChart/test.html" target="_blank">http://guptag.github.io/DonutChart/test.html</a>
 </h5>
 
+![ScreenShot](https://raw.github.com/guptag/DonutChart/img/donutchart.png)
+
 <p>
 	<h3>Task List</h3>
 	<ul>
@@ -22,7 +24,9 @@
 		<li><del>Zoom in animations.</del></li>
 		<li><del>Zoom out animations.</del></li>
 		<li><del>Symmetry between zoomin and zoomout.</del></li>
-		<li>Hover state</li>
-		<li>Replace task helper with promises (investigate Q.js)</li>		
+		<li>Hover state.</li>
+		<li>Replace task helper with promises (investigate Q.js).</li>
+		<li>Use Require.js</li>		
 	</ul>
 </p>
+
