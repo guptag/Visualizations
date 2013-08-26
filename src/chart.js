@@ -19,6 +19,10 @@
       console && console.log(params);
       _this.selectRing(params.angle);
     });
+    $(window).on("event.hover", function(e, params) 
+    { 
+      _this.highlightRing(params.angle);
+    });
   }
 
   var _prototype = global.donut.Chart.prototype;
@@ -166,6 +170,9 @@
 
   _prototype.drawText = function(p_text, p_fillColor) {                
     var _context = this.context;
+
+
+    p_text = p_text.length > 20 ? p_text.substring(0, 14) + "..." : p_text;
     
     _context.save();
     _context.fillStyle = p_fillColor || "black";
@@ -207,6 +214,17 @@
         runDrillInAnimations(this, _index);        
       }
     }
+  }
+
+  _prototype.highlightRing = function(p_angle) {
+    
+   /* this.drawCircle (0, 2 * Math.PI, this.dataMgr.current.primaryColor);
+    if (!p_angle) {      
+      this.drawText(this.dataMgr.current.name, this.dataMgr.current.parent ? "white" : "black");
+    } else {
+     var _index = mapAngleToRingIndex(this.dataMgr, p_angle);      
+     this.drawText(this.dataMgr.current.items[_index].name, this.dataMgr.current.parent ? "white" : "black");
+    } */   
   }
 
   _prototype.clear = function () {
