@@ -168,16 +168,19 @@
     };
   };
 
-  _prototype.drawText = function(p_text, p_fillColor) {                
+  _prototype.drawText = function(p_text, p_fillColor, p_sub_text) {                
     var _context = this.context;
 
-
-    p_text = p_text.length > 20 ? p_text.substring(0, 14) + "..." : p_text;
+    p_text = p_text.length > 20 ? p_text.substring(0, 16) + "..." : p_text;
     
     _context.save();
     _context.fillStyle = p_fillColor || "black";
-    _context.font = '18pt Calibri Helvetica, Arial';
-    _context.fillText(p_text, this.center.X - _context.measureText(p_text).width / 2, this.center.Y - 2);
+    _context.font = '15pt Calibri Helvetica, Arial';
+    _context.fillText(p_text, this.center.X - _context.measureText(p_text).width / 2, this.center.Y - 4);
+    if(p_sub_text) {
+      _context.font = '8pt Calibri Helvetica, Arial';
+      _context.fillText(p_sub_text, this.center.X - _context.measureText(p_sub_text).width / 2, this.center.Y + 12);
+    }
     _context.restore();   
   } 
 
@@ -216,15 +219,18 @@
     }
   }
 
-  _prototype.highlightRing = function(p_angle) {
-    
-   /* this.drawCircle (0, 2 * Math.PI, this.dataMgr.current.primaryColor);
-    if (!p_angle) {      
-      this.drawText(this.dataMgr.current.name, this.dataMgr.current.parent ? "white" : "black");
+  _prototype.highlightRing = function(p_angle) {    
+    this.drawCircle (0, 2 * Math.PI, this.dataMgr.current.primaryColor);
+    if (!p_angle) {            
+      this.drawText(this.dataMgr.current.name, 
+                    this.dataMgr.current.parent ? "white" : "black", 
+                    this.dataMgr.current.valuePercentage && this.dataMgr.current.valuePercentage.toFixed(2) + "% of " + this.dataMgr.current.parent.name); //hovered outside/inside of the rings
     } else {
      var _index = mapAngleToRingIndex(this.dataMgr, p_angle);      
-     this.drawText(this.dataMgr.current.items[_index].name, this.dataMgr.current.parent ? "white" : "black");
-    } */   
+     this.drawText(this.dataMgr.current.items[_index].name, 
+                   this.dataMgr.current.parent ? "white" : "black", 
+                   this.dataMgr.current.items[_index].valuePercentage.toFixed(2) + "% of " + this.dataMgr.current.name);
+    }    
   }
 
   _prototype.clear = function () {
@@ -280,7 +286,9 @@
     }));
     task.addJob(function (p_task) {
       _this.drawCircle (0, 2 * Math.PI, _selectedDataItem.primaryColor);
-      _this.drawText(_selectedDataItem.name, _selectedDataItem.parent ? "white" : "black");
+      _this.drawText(_selectedDataItem.name, 
+                     _selectedDataItem.parent ? "white" : "black",
+                     _selectedDataItem.valuePercentage.toFixed(2) + "% of " + _selectedDataItem.parent.name);
       p_task.notifyJobComplete();
     }); 
     task.process();    
@@ -317,7 +325,9 @@
     
     task.addJob(function (p_task) {
       _this.drawCircle (0, 2 * Math.PI, _currentDataItem.primaryColor);
-      _this.drawText(_currentDataItem.name, _currentDataItem.parent ? "white" : "black");
+      _this.drawText(_currentDataItem.name, 
+                     _currentDataItem.parent ? "white" : "black",
+                     (_currentDataItem.valuePercentage && _currentDataItem.parent) && _currentDataItem.valuePercentage.toFixed(2) + "% of " + _currentDataItem.parent.name);
       p_task.notifyJobComplete();
     }); 
     task.process(); 
