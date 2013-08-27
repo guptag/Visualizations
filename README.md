@@ -33,7 +33,7 @@
 <p>
 	<h3>Credits</h3>
 	<p>
-		<a href="https://github.com/binq">@binq</a> - Thank you for the invaluable feedback and suggestions. This control is an inspiration from your EMAP control (used Canvas instead of SVG).
+		<a href="https://github.com/binq">@binq</a> - Thank you for the invaluable feedback and suggestions. This work is an inspiration from your EMAP SVG control (I tried to replicate the behavior and interations using Canvas).
 	</p>
 </p>
 
