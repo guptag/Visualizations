@@ -30,3 +30,10 @@
 	</ul>
 </p>
 
+<p>
+	<h3>Credits</h3>
+	<p>
+		<a href="https://github.com/binq">@binq</a> - Thank you for the invaluable feedback and suggestions. This control is an inspiration from your EMAP control (used Canvas instead of SVG).
+	</p>
+</p>
+
