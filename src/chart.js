@@ -12,6 +12,7 @@
     this.radius = Math.min($canvas.width() / 2, $canvas.height()) * 0.95
     this.innerRadius = this.radius * 0.65;
     this.innerCircleColor = "white";
+    this.enableHover = true;
 
     this.eventMgr = p_eventManager;                   
     this.eventMgr.init(this.center, this.radius, this.innerRadius);    
@@ -21,7 +22,7 @@
     });
     $(window).on("event.hover", function(e, params) 
     { 
-      _this.highlightRing(params.angle);
+      _this.enableHover && _this.highlightRing(params.angle);
     });
   }
 
@@ -254,10 +255,15 @@
 
   function runDrillInAnimations(p_this, p_index) {    
     var _this = p_this;    
-    var task = new donut.Task(), batchId_1 = 100, batchId_2 = 200, batchId_3 = 300;
+    var task = new donut.Task(function() {
+        p_this.enableHover = true;
+    });
+    var batchId_1 = 100, batchId_2 = 200, batchId_3 = 300;
 
     var _parentDataItem = _this.dataMgr.current;
-    var _selectedDataItem =_this.dataMgr.drillIn(p_index);    
+    var _selectedDataItem =_this.dataMgr.drillIn(p_index);
+
+    _this.enableHover = false; //disable hover event (re-enable once task is finished)    
 
     task.addJob(function (p_task) {      
       _this.drawCircle (0, 2 * Math.PI, "white");
@@ -296,11 +302,15 @@
 
   function runDrillOutAnimations(p_this) {    
     var _this = p_this;    
-    var task = new donut.Task(), batchId_1 = 300, batchId_2 = 400, batchId_3 = 500;
+    var task = new donut.Task(function() {
+        p_this.enableHover = true;
+    });
+    var batchId_1 = 300, batchId_2 = 400, batchId_3 = 500;
 
     var _prevDataItem = _this.dataMgr.current;
     var _currentDataItem =_this.dataMgr.drillOut();    
 
+    _this.enableHover = false; //disable hover event (re-enable once task is finished)
     
     task.addBatchJob(batchId_1, _prevDataItem.items.map(function (item, index) {
         return _this.animateRingIn2DHandler(batchId_1, null, item.endAngle, item.startAngle, item.primaryColor, _prevDataItem.primaryColor, _this.radius, _this.innerRadius);
