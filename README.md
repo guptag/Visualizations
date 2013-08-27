@@ -24,7 +24,7 @@
 		<li><del>Zoom in animations.</del></li>
 		<li><del>Zoom out animations.</del></li>
 		<li><del>Symmetry between zoomin and zoomout.</del></li>
-		<li>Hover state.</li>
+		<li><del>Hover state.<del></li>
 		<li>Replace task helper with promises (investigate Q.js).</li>
 		<li>Use Require.js</li>		
 	</ul>
