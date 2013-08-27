@@ -179,8 +179,8 @@
     _context.font = '15pt Calibri Helvetica, Arial';
     _context.fillText(p_text, this.center.X - _context.measureText(p_text).width / 2, this.center.Y - 4);
     if(p_sub_text) {
-      _context.font = '8pt Calibri Helvetica, Arial';
-      _context.fillText(p_sub_text, this.center.X - _context.measureText(p_sub_text).width / 2, this.center.Y + 12);
+      _context.font = '9pt Calibri Helvetica, Arial';
+      _context.fillText(p_sub_text, this.center.X - _context.measureText(p_sub_text).width / 2, this.center.Y + 14);
     }
     _context.restore();   
   } 
@@ -228,9 +228,9 @@
                     this.dataMgr.current.valuePercentage && this.dataMgr.current.valuePercentage.toFixed(2) + "% of " + this.dataMgr.current.parent.name); //hovered outside/inside of the rings
     } else {
      var _index = mapAngleToRingIndex(this.dataMgr, p_angle);      
-     this.drawText(this.dataMgr.current.items[_index].name, 
+     this.drawText(this.dataMgr.current.name, 
                    this.dataMgr.current.parent ? "white" : "black", 
-                   this.dataMgr.current.items[_index].valuePercentage.toFixed(2) + "% of " + this.dataMgr.current.name);
+                   this.dataMgr.current.items[_index].name + " (" + this.dataMgr.current.items[_index].valuePercentage.toFixed(2) + "%)");
     }    
   }
 
