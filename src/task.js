@@ -186,31 +186,16 @@
       });  
 
       return this;
-  };
-
-
-  _prototype.process = function () {
-      executeNextTask(this);
-  };  
+  };   
 
   _prototype.done = function (doneCb) {
       this.onComplete = doneCb || function() {};
       return this;
-  };  
-
-  var getNextCb = function(p_this) {
-    var p_this = p_this;
-    return function next() {
-      executeNextTask(p_this);
-    }
   };
 
-  var getReadyCb = function (p_this, meta) {
-      return function ready () {
-        // move to the next job once all the parallel tasks are completed
-        (++meta.completed === meta.jobcount) && executeNextTask(p_this);
-      };
-  };
+  _prototype.process = function () {
+      executeNextTask(this);
+  }; 
 
   var executeNextTask = function (p_this) {
     if (!p_this.isCompleted && p_this.jobs.length > 0) {
@@ -233,4 +218,19 @@
       p_this.onComplete && p_this.onComplete.call(global);      
     }
   };
+
+  var getNextCb = function(p_this) {
+    var p_this = p_this;
+    return function next() {
+      executeNextTask(p_this);
+    }
+  };
+
+  var getReadyCb = function (p_this, meta) {
+      return function ready () {
+        // move to the next job once all the parallel tasks are completed
+        (++meta.completed === meta.jobcount) && executeNextTask(p_this);
+      };
+  };
+
 })(window);  
