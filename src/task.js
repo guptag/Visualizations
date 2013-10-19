@@ -179,7 +179,8 @@
       this.jobs.push({
         meta: { 
                   id: ++this.parallelJobId, 
-                  jobcount: p_fnList.length
+                  jobcount: p_fnList.length,
+                  completed: 0
                 },
         execFnList: p_fnList
       });  
@@ -190,7 +191,6 @@
 
   _prototype.process = function () {
       executeNextTask(this);
-      return this;
   };  
 
   _prototype.done = function (doneCb) {
@@ -206,8 +206,6 @@
   };
 
   var getReadyCb = function (p_this, meta) {
-      var meta = meta;
-      meta.completed = 0;
       return function ready () {
         // move to the next job once all the parallel tasks are completed
         (++meta.completed === meta.jobcount) && executeNextTask(p_this);
