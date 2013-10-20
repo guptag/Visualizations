@@ -1,7 +1,5 @@
 <h1>HTML5 Donut Chart</h1>
 
-<h6>(work in progress...)</h6>
-
 <p>
  Data driven chart control drawn leveraging HTML5 canvas element. All the interactions and animations are custom written in javascript (without using any animation libraries). The goal of this project is to learn the canvas api, implement an animation helper and a task scheduler to smoothly run zoom-in and zoom-out animations.
 </p>
@@ -27,6 +25,7 @@
 		<li><del>Hover state.</del></li>
 		<li><del>Revamped Task interface based on "Flow (npm) module" inspiration.</del></li>
 		<li><del>Custom written non blocking helpers for animation (skipping Q.js)</del></li>
+		<li>Time for a latte!!!</li>
 	</ul>
 </p>
 

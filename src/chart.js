@@ -89,7 +89,8 @@
     _context.restore();   
   };
 
-  _prototype.animateRingHandler = function (p_delayNotifyMsec, p_angle_from, p_angle_to, p_color, p_center_color, p_radius, p_counterClockwise, p_steps) {
+  // draw ring by animating the angle
+  _prototype.animateRingfn = function (p_delayNotifyMsec, p_angle_from, p_angle_to, p_color, p_center_color, p_radius, p_counterClockwise, p_steps) {
     var _this = this;
     
     return function (p_nextOrReady) {
@@ -108,7 +109,8 @@
     };
   };
 
-  _prototype.animateRingIn2DHandler = function (p_delayNotifyMsec, p_angle_from, p_angle_to, p_color, p_center_color, p_radius_from, p_radius_to, p_counterClockwise) {
+  // draw ring by animating in both dimensions (angle and radius)
+  _prototype.sproutRingfn = function (p_delayNotifyMsec, p_angle_from, p_angle_to, p_color, p_center_color, p_radius_from, p_radius_to, p_counterClockwise) {
     var _this = this;
     
     return function (p_nextOrReady) {
@@ -134,7 +136,8 @@
     };
   };  
 
-  _prototype.animateCircleHandler = function (p_delayNotifyMsec, p_angle_from, p_angle_to, p_color, p_radius, p_counterClockwise) {
+  // draw circle by animating the angle
+  _prototype.animateCirclefn = function (p_delayNotifyMsec, p_angle_from, p_angle_to, p_color, p_radius, p_counterClockwise) {
     var _this = this;    
     return function (p_nextOrReady) {
       donut.AnimHelper.animate(          
@@ -151,7 +154,8 @@
     };
   };
 
-  _prototype.animateCircleWithRadiusHandler = function (p_delayNotifyMsec, p_angle_from, p_angle_to, p_color, p_radius_from, p_radius_to, p_counterClockwise) {
+  // draw circle by animating the radius (fans out)
+  _prototype.animateCircleWithRadiusfn = function (p_delayNotifyMsec, p_angle_from, p_angle_to, p_color, p_radius_from, p_radius_to, p_counterClockwise) {
     var _this = this;    
     return function (p_nextOrReady) {
       donut.AnimHelper.animate(          
@@ -180,9 +184,9 @@
     donut.Task
         .createNew()
         .parallel(current.items.map(function (item, index) {
-           return _this.animateRingHandler(null, item.startAngle, item.endAngle, item.primaryColor, null);
+           return _this.animateRingfn(null, item.startAngle, item.endAngle, item.primaryColor, null);
          }))
-        .serial(this.animateCircleHandler(null, 0, 2 * Math.PI, current.primaryColor || "white"))
+        .serial(this.animateCirclefn(null, 0, 2 * Math.PI, current.primaryColor || "white"))
         .serial(function(next) {
           _this.drawText(current.name, current.parent ? "white" : "black"); 
           next();
@@ -259,18 +263,18 @@
       })
       .parallel(_parentDataItem.items.map(function (item, index) {
           if (item.name === _selectedDataItem.name) {
-            return _this.animateRingHandler(15, item.endAngle, 2 * Math.PI + item.startAngle, _selectedDataItem.primaryColor, "white", _this.radius);
+            return _this.animateRingfn(15, item.endAngle, 2 * Math.PI + item.startAngle, _selectedDataItem.primaryColor, "white", _this.radius);
           }
           return null;
       }))
-      .serial(_this.animateCircleWithRadiusHandler(null, 0, 2 * Math.PI, _selectedDataItem.primaryColor, _this.radius, _this.radius / 10, false))
+      .serial(_this.animateCircleWithRadiusfn(null, 0, 2 * Math.PI, _selectedDataItem.primaryColor, _this.radius, _this.radius / 10, false))
       .serial(function (next) {
         _this.clear();
         next();
       })
-      .serial(_this.animateCircleWithRadiusHandler(70, 0, 2 * Math.PI, _selectedDataItem.primaryColor, 0, _this.innerRadius, false))
+      .serial(_this.animateCircleWithRadiusfn(70, 0, 2 * Math.PI, _selectedDataItem.primaryColor, 0, _this.innerRadius, false))
       .parallel(_selectedDataItem.items.map(function (item, index) {
-          return _this.animateRingIn2DHandler(null, item.startAngle, item.endAngle, item.primaryColor, _selectedDataItem.primaryColor, _this.innerRadius, _this.radius);
+          return _this.sproutRingfn(null, item.startAngle, item.endAngle, item.primaryColor, _selectedDataItem.primaryColor, _this.innerRadius, _this.radius);
       }))
       .serial(function (next) {
         _this.drawCircle (0, 2 * Math.PI, _selectedDataItem.primaryColor);
@@ -298,9 +302,9 @@
     donut.Task
       .createNew()
       .parallel(_prevDataItem.items.map(function (item, index) {
-          return _this.animateRingIn2DHandler(null, item.endAngle, item.startAngle, item.primaryColor, _prevDataItem.primaryColor, _this.radius, _this.innerRadius);
+          return _this.sproutRingfn(null, item.endAngle, item.startAngle, item.primaryColor, _prevDataItem.primaryColor, _this.radius, _this.innerRadius);
       }))
-      .serial(_this.animateCircleWithRadiusHandler(null, 0, 2 * Math.PI, _prevDataItem.primaryColor, _this.innerRadius, _this.radius, false))
+      .serial(_this.animateCircleWithRadiusfn(null, 0, 2 * Math.PI, _prevDataItem.primaryColor, _this.innerRadius, _this.radius, false))
       .serial(function (next) {
         _this.clear();
         _this.drawRing(0, 2 * Math.PI, _prevDataItem.primaryColor, "white", _this.radius);
@@ -319,12 +323,12 @@
       .serial(_currentDataItem.items.map(function(item, index) {
         if (item.name === _prevDataItem.name) {
           // erase all rings except the zoomout node (in anticlockwise direction)
-         return _this.animateRingHandler(30, Math.PI * 2 + item.startAngle, item.endAngle, "white", "white", _this.radius, true, 20);
+         return _this.animateRingfn(30, Math.PI * 2 + item.startAngle, item.endAngle, "white", "white", _this.radius, true, 20);
         }
         return null;      
       }))
       .serial(reorderItemsToRenderSequentially(_currentDataItem.items, _prevDataItem.name).map(function(item, index) {
-        return _this.animateRingHandler(0, item.endAngle, item.startAngle, item.primaryColor, "white", _this.radius, true, 5);      
+        return _this.animateRingfn(0, item.endAngle, item.startAngle, item.primaryColor, "white", _this.radius, true, 5);      
       }))
       .serial(function (next) {
         _this.drawCircle (0, 2 * Math.PI, _currentDataItem.primaryColor);
