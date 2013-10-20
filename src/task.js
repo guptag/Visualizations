@@ -247,9 +247,13 @@
   };
 
   var getReadyCb = function (p_this, meta) {
-      return function ready () {
+      return function ready (msec) {
         // move to the next job once all the parallel tasks are completed
-        (++meta.completed === meta.jobcount) && executeNextTask(p_this);
+        if (++meta.completed === meta.jobcount) {
+            setTimeout(function() { 
+              executeNextTask(p_this);
+           }, msec || 0);
+        }    
       };
   };
 
