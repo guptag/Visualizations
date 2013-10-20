@@ -55,7 +55,39 @@
     }
     _context.closePath();
     _context.fill();    
-  }
+  } 
+
+  _prototype.drawCircle = function (p_angle_from, p_angle_to, p_color, p_radius, p_counterClockwise) {    
+    var _context = this.context;
+
+    p_angle_from = p_angle_from || 0;
+    p_angle_to = p_angle_to || 2 * Math.PI;
+
+    _context.beginPath();
+    _context.fillStyle = p_color || this.innerCircleColor; 
+    _context.strokeStyle = "white";
+    _context.lineWidth = 1;   
+    _context.arc(this.center.X, this.center.Y, p_radius || this.innerRadius, p_angle_from , p_angle_to, p_counterClockwise || false);
+    _context.closePath();
+    _context.fill();
+    _context.stroke();
+  };
+
+  _prototype.drawText = function(p_text, p_fillColor, p_sub_text) {                
+    var _context = this.context;
+
+    p_text = p_text.length > 20 ? p_text.substring(0, 16) + "..." : p_text;
+    
+    _context.save();
+    _context.fillStyle = p_fillColor || "black";
+    _context.font = '15pt Calibri Helvetica, Arial';
+    _context.fillText(p_text, this.center.X - _context.measureText(p_text).width / 2, this.center.Y - 4);
+    if(p_sub_text) {
+      _context.font = '9pt Calibri Helvetica, Arial';
+      _context.fillText(p_sub_text, this.center.X - _context.measureText(p_sub_text).width / 2, this.center.Y + 14);
+    }
+    _context.restore();   
+  };
 
   _prototype.animateRingHandler = function (p_delayNotifyMsec, p_angle_from, p_angle_to, p_color, p_center_color, p_radius, p_counterClockwise, p_steps) {
     var _this = this;
@@ -102,22 +134,6 @@
     };
   };  
 
-  _prototype.drawCircle = function (p_angle_from, p_angle_to, p_color, p_radius, p_counterClockwise) {    
-    var _context = this.context;
-
-    p_angle_from = p_angle_from || 0;
-    p_angle_to = p_angle_to || 2 * Math.PI;
-
-    _context.beginPath();
-    _context.fillStyle = p_color || this.innerCircleColor; 
-    _context.strokeStyle = "white";
-    _context.lineWidth = 1;   
-    _context.arc(this.center.X, this.center.Y, p_radius || this.innerRadius, p_angle_from , p_angle_to, p_counterClockwise || false);
-    _context.closePath();
-    _context.fill();
-    _context.stroke();
-  };
-
   _prototype.animateCircleHandler = function (p_delayNotifyMsec, p_angle_from, p_angle_to, p_color, p_radius, p_counterClockwise) {
     var _this = this;    
     return function (p_nextOrReady) {
@@ -151,23 +167,7 @@
            p_nextOrReady(p_delayNotifyMsec || 0);
         });
     };
-  };
-
-  _prototype.drawText = function(p_text, p_fillColor, p_sub_text) {                
-    var _context = this.context;
-
-    p_text = p_text.length > 20 ? p_text.substring(0, 16) + "..." : p_text;
-    
-    _context.save();
-    _context.fillStyle = p_fillColor || "black";
-    _context.font = '15pt Calibri Helvetica, Arial';
-    _context.fillText(p_text, this.center.X - _context.measureText(p_text).width / 2, this.center.Y - 4);
-    if(p_sub_text) {
-      _context.font = '9pt Calibri Helvetica, Arial';
-      _context.fillText(p_sub_text, this.center.X - _context.measureText(p_sub_text).width / 2, this.center.Y + 14);
-    }
-    _context.restore();   
-  } 
+  }; 
 
   _prototype.render = function () {    
     var _this = this, 
@@ -296,47 +296,47 @@
 
     
     donut.Task
-    .createNew()
-    .parallel(_prevDataItem.items.map(function (item, index) {
-        return _this.animateRingIn2DHandler(null, item.endAngle, item.startAngle, item.primaryColor, _prevDataItem.primaryColor, _this.radius, _this.innerRadius);
-    }))
-    .serial(_this.animateCircleWithRadiusHandler(null, 0, 2 * Math.PI, _prevDataItem.primaryColor, _this.innerRadius, _this.radius, false))
-    .serial(function (next) {
-      _this.clear();
-      _this.drawRing(0, 2 * Math.PI, _prevDataItem.primaryColor, "white", _this.radius);
-      next(100);
-    })
-    .serial(function (next) {
-      _this.clear();
-      _this.drawRing(0, 2 * Math.PI, _prevDataItem.primaryColor, "white", _this.radius);
-      next(100);
-    })
-    .serial(function (next) {
-      _this.clear();
-      _this.drawRing(0, 2 * Math.PI, _prevDataItem.primaryColor, "white", _this.radius);
-      next(100);
-    })
-    .serial(_currentDataItem.items.map(function(item, index) {
-      if (item.name === _prevDataItem.name) {
-        // erase all rings except the zoomout node (in anticlockwise direction)
-       return _this.animateRingHandler(30, Math.PI * 2 + item.startAngle, item.endAngle, "white", "white", _this.radius, true, 20);
-      }
-      return null;      
-    }))
-    .serial(reorderItemsToRenderSequentially(_currentDataItem.items, _prevDataItem.name).map(function(item, index) {
-      return _this.animateRingHandler(0, item.endAngle, item.startAngle, item.primaryColor, "white", _this.radius, true, 5);      
-    }))
-    .serial(function (next) {
-      _this.drawCircle (0, 2 * Math.PI, _currentDataItem.primaryColor);
-      _this.drawText(_currentDataItem.name, 
-                     _currentDataItem.parent ? "white" : "black",
-                     (_currentDataItem.valuePercentage && _currentDataItem.parent) && _currentDataItem.valuePercentage.toFixed(2) + "% of " + _currentDataItem.parent.name);
-      next();
-    }) 
-    .done(function () {
-      p_this.enableHover = true;
-    })
-    .process();
+      .createNew()
+      .parallel(_prevDataItem.items.map(function (item, index) {
+          return _this.animateRingIn2DHandler(null, item.endAngle, item.startAngle, item.primaryColor, _prevDataItem.primaryColor, _this.radius, _this.innerRadius);
+      }))
+      .serial(_this.animateCircleWithRadiusHandler(null, 0, 2 * Math.PI, _prevDataItem.primaryColor, _this.innerRadius, _this.radius, false))
+      .serial(function (next) {
+        _this.clear();
+        _this.drawRing(0, 2 * Math.PI, _prevDataItem.primaryColor, "white", _this.radius);
+        next(100);
+      })
+      .serial(function (next) {
+        _this.clear();
+        _this.drawRing(0, 2 * Math.PI, _prevDataItem.primaryColor, "white", _this.radius);
+        next(100);
+      })
+      .serial(function (next) {
+        _this.clear();
+        _this.drawRing(0, 2 * Math.PI, _prevDataItem.primaryColor, "white", _this.radius);
+        next(100);
+      })
+      .serial(_currentDataItem.items.map(function(item, index) {
+        if (item.name === _prevDataItem.name) {
+          // erase all rings except the zoomout node (in anticlockwise direction)
+         return _this.animateRingHandler(30, Math.PI * 2 + item.startAngle, item.endAngle, "white", "white", _this.radius, true, 20);
+        }
+        return null;      
+      }))
+      .serial(reorderItemsToRenderSequentially(_currentDataItem.items, _prevDataItem.name).map(function(item, index) {
+        return _this.animateRingHandler(0, item.endAngle, item.startAngle, item.primaryColor, "white", _this.radius, true, 5);      
+      }))
+      .serial(function (next) {
+        _this.drawCircle (0, 2 * Math.PI, _currentDataItem.primaryColor);
+        _this.drawText(_currentDataItem.name, 
+                       _currentDataItem.parent ? "white" : "black",
+                       (_currentDataItem.valuePercentage && _currentDataItem.parent) && _currentDataItem.valuePercentage.toFixed(2) + "% of " + _currentDataItem.parent.name);
+        next();
+      }) 
+      .done(function () {
+        p_this.enableHover = true;
+      })
+      .process();
   }
 
   //shuffle the items so the rings are rendered in sequence from the selected ring

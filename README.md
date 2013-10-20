@@ -24,9 +24,9 @@
 		<li><del>Zoom in animations.</del></li>
 		<li><del>Zoom out animations.</del></li>
 		<li><del>Symmetry between zoomin and zoomout.</del></li>
-		<li><del>Hover state.<del></li>
-		<li>Replace task helper with promises (investigate Q.js).</li>
-		<li>Use Require.js</li>		
+		<li><del>Hover state.</del></li>
+		<li><del>Revamped Task interface based on "Flow (npm) module" inspiration.</del></li>
+		<li><del>Custom written non blocking helpers for animation (skipping Q.js)</del></li>
 	</ul>
 </p>
 

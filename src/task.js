@@ -59,6 +59,7 @@
        return this;
      }
       
+     // supports single function or array of functions
      if (typeof p_fn === "function") {
         this.jobs.push({
             execFn: p_fn
