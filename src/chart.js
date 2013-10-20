@@ -71,9 +71,9 @@
         function() 
         { 
            if (p_batchId) {
-            setTimeout(function () { p_task.notifyBatchItemComplete(p_batchId); }, p_delayNotifyMsec || 0); 
+            setTimeout(function () { p_task.notifyBatchItemComplete ? p_task.notifyBatchItemComplete(p_batchId) : p_task() }, p_delayNotifyMsec || 0); 
            } else {
-            setTimeout(function () { p_task.notifyJobComplete(); }, p_delayNotifyMsec || 0); 
+            setTimeout(function () {  p_task.notifyJobComplete ? p_task.notifyJobComplete() : p_task() }, p_delayNotifyMsec || 0); 
            }
         },
         p_steps);
@@ -102,9 +102,9 @@
         function() 
         { 
            if (p_batchId) {
-            setTimeout(function () { p_task.notifyBatchItemComplete(p_batchId); }, p_delayNotifyMsec || 0); 
+            setTimeout(function () {p_task.notifyBatchItemComplete ? p_task.notifyBatchItemComplete(p_batchId) : p_task() }, p_delayNotifyMsec || 0); 
            } else {
-            setTimeout(function () { p_task.notifyJobComplete(); }, p_delayNotifyMsec || 0); 
+            setTimeout(function () {p_task.notifyJobComplete ? p_task.notifyJobComplete() : p_task() }, p_delayNotifyMsec || 0); 
            }
         });
     };
@@ -139,9 +139,9 @@
         function() 
         { 
            if (p_batchId) {
-            setTimeout(function () { p_task.notifyBatchItemComplete(p_batchId); }, p_delayNotifyMsec || 0); 
+            setTimeout(function () { p_task.notifyBatchItemComplete ? p_task.notifyBatchItemComplete(p_batchId) : p_task() }, p_delayNotifyMsec || 0); 
            } else {
-            setTimeout(function () { p_task.notifyJobComplete(); }, p_delayNotifyMsec || 0); 
+            setTimeout(function () { p_task.notifyJobComplete ? p_task.notifyJobComplete() : p_task() }, p_delayNotifyMsec || 0); 
            }
         });
     };
@@ -161,9 +161,9 @@
         function() 
         { 
            if (p_batchId) {
-            setTimeout(function () { p_task.notifyBatchItemComplete(p_batchId); }, p_delayNotifyMsec || 0); 
+            setTimeout(function () { p_task.notifyBatchItemComplete ? p_task.notifyBatchItemComplete(p_batchId) : p_task() }, p_delayNotifyMsec || 0); 
            } else {
-            setTimeout(function () { p_task.notifyJobComplete(); }, p_delayNotifyMsec || 0); 
+            setTimeout(function () { p_task.notifyJobComplete ? p_task.notifyJobComplete() : p_task() }, p_delayNotifyMsec || 0); 
            }
         });
     };
@@ -187,23 +187,23 @@
 
   _prototype.render = function () {    
     var _this = this, 
-        current = this.dataMgr.current,        
-        batchId = 100;
+        current = this.dataMgr.current;
 
     if (!current.items) {
       return;
-    }    
+    }
 
-    var task = new donut.Task();
-    task.addBatchJob(batchId, current.items.map(function (item, index) {
-        return _this.animateRingHandler(batchId, null, item.startAngle, item.endAngle, item.primaryColor, null);
-    }));
-    task.addJob(this.animateCircleHandler(null, null, 0, 2 * Math.PI, current.primaryColor || "white"));
-    task.addJob(function(p_task) {
-      _this.drawText(current.name, current.parent ? "white" : "black"); 
-      p_task.notifyJobComplete();
-    });
-    task.process();
+    donut.Task_WIP
+        .createNew()
+        .parallel(current.items.map(function (item, index) {
+           return _this.animateRingHandler(null, null, item.startAngle, item.endAngle, item.primaryColor, null);
+         }))
+        .serial(this.animateCircleHandler(null, null, 0, 2 * Math.PI, current.primaryColor || "white"))
+        .serial(function(next) {
+          _this.drawText(current.name, current.parent ? "white" : "black"); 
+          next();
+        })
+        .process();
   };
 
 
@@ -255,92 +255,104 @@
 
   function runDrillInAnimations(p_this, p_index) {    
     var _this = p_this;    
-    var task = new donut.Task(function() {
-        p_this.enableHover = true;
-    });
-    var batchId_1 = 100, batchId_2 = 200, batchId_3 = 300;
-
     var _parentDataItem = _this.dataMgr.current;
     var _selectedDataItem =_this.dataMgr.drillIn(p_index);
 
-    _this.enableHover = false; //disable hover event (re-enable once task is finished)    
+     _this.enableHover = false; //disable hover event (re-enable once task is finished)
 
-    task.addJob(function (p_task) {      
-      _this.drawCircle (0, 2 * Math.PI, "white");
-      for (var i = 0; i < _parentDataItem.items.length; ++i) {
-        var item = _parentDataItem.items[i];
-        if (item.name !== _selectedDataItem.name) {
-          _this.drawRing(item.startAngle, item.endAngle, "white", "white", _this.radius);
+
+    donut.Task_WIP
+      .createNew()
+      .serial(function (next) {      
+        _this.drawCircle (0, 2 * Math.PI, "white");
+        for (var i = 0; i < _parentDataItem.items.length; ++i) {
+          var item = _parentDataItem.items[i];
+          if (item.name !== _selectedDataItem.name) {
+            _this.drawRing(item.startAngle, item.endAngle, "white", "white", _this.radius);
+          }
         }
-      }
-      setTimeout(function() { p_task.notifyJobComplete(); }, 100);
-    });   
-    task.addBatchJob(batchId_2, _parentDataItem.items.map(function (item, index) {
-        if (item.name === _selectedDataItem.name) {
-          return _this.animateRingHandler(batchId_2, 15, item.endAngle, 2 * Math.PI + item.startAngle, _selectedDataItem.primaryColor, "white", _this.radius);
-        }
-        return null;
-    }));
-    task.addJob(_this.animateCircleWithRadiusHandler(null, null, 0, 2 * Math.PI, _selectedDataItem.primaryColor, _this.radius, _this.radius / 10, false));
-    task.addJob(function (p_task) {
-      _this.clear();
-      p_task.notifyJobComplete();
-    });
-    task.addJob(_this.animateCircleWithRadiusHandler(null, 70, 0, 2 * Math.PI, _selectedDataItem.primaryColor, 0, _this.innerRadius, false));    
-    task.addBatchJob(batchId_3, _selectedDataItem.items.map(function (item, index) {
-        return _this.animateRingIn2DHandler(batchId_3, null, item.startAngle, item.endAngle, item.primaryColor, _selectedDataItem.primaryColor, _this.innerRadius, _this.radius);
-    }));
-    task.addJob(function (p_task) {
-      _this.drawCircle (0, 2 * Math.PI, _selectedDataItem.primaryColor);
-      _this.drawText(_selectedDataItem.name, 
-                     _selectedDataItem.parent ? "white" : "black",
-                     _selectedDataItem.valuePercentage.toFixed(2) + "% of " + _selectedDataItem.parent.name);
-      p_task.notifyJobComplete();
-    }); 
-    task.process();    
+        next(100);
+      })
+      .parallel(_parentDataItem.items.map(function (item, index) {
+          if (item.name === _selectedDataItem.name) {
+            return _this.animateRingHandler(null, 15, item.endAngle, 2 * Math.PI + item.startAngle, _selectedDataItem.primaryColor, "white", _this.radius);
+          }
+          return null;
+      }))
+      .serial(_this.animateCircleWithRadiusHandler(null, null, 0, 2 * Math.PI, _selectedDataItem.primaryColor, _this.radius, _this.radius / 10, false))
+      .serial(function (next) {
+        _this.clear();
+        next();
+      })
+      .serial(_this.animateCircleWithRadiusHandler(null, 70, 0, 2 * Math.PI, _selectedDataItem.primaryColor, 0, _this.innerRadius, false))
+      .parallel(_selectedDataItem.items.map(function (item, index) {
+          return _this.animateRingIn2DHandler(null, null, item.startAngle, item.endAngle, item.primaryColor, _selectedDataItem.primaryColor, _this.innerRadius, _this.radius);
+      }))
+      .serial(function (next) {
+        _this.drawCircle (0, 2 * Math.PI, _selectedDataItem.primaryColor);
+        _this.drawText(_selectedDataItem.name, 
+                       _selectedDataItem.parent ? "white" : "black",
+                       _selectedDataItem.valuePercentage.toFixed(2) + "% of " + _selectedDataItem.parent.name);
+          next();
+      })
+      .done(function() {
+        p_this.enableHover = true;
+      })
+      .process();
   }
+
+  
 
   function runDrillOutAnimations(p_this) {    
     var _this = p_this;    
-    var task = new donut.Task(function() {
-        p_this.enableHover = true;
-    });
-    var batchId_1 = 300, batchId_2 = 400, batchId_3 = 500;
-
-    var _prevDataItem = _this.dataMgr.current;
-    var _currentDataItem =_this.dataMgr.drillOut();    
-
-    _this.enableHover = false; //disable hover event (re-enable once task is finished)
     
-    task.addBatchJob(batchId_1, _prevDataItem.items.map(function (item, index) {
-        return _this.animateRingIn2DHandler(batchId_1, null, item.endAngle, item.startAngle, item.primaryColor, _prevDataItem.primaryColor, _this.radius, _this.innerRadius);
-    }));
-    task.addJob(_this.animateCircleWithRadiusHandler(null, null, 0, 2 * Math.PI, _prevDataItem.primaryColor, _this.innerRadius, _this.radius, false));
-    task.addJob(function (p_task) {
+    var _prevDataItem = _this.dataMgr.current;
+    var _currentDataItem =_this.dataMgr.drillOut();
+    _this.enableHover = false; //disable hover event (re-enable once task is finished) 
+
+    
+    donut.Task_WIP
+    .createNew()
+    .parallel(_prevDataItem.items.map(function (item, index) {
+        return _this.animateRingIn2DHandler(null, null, item.endAngle, item.startAngle, item.primaryColor, _prevDataItem.primaryColor, _this.radius, _this.innerRadius);
+    }))
+    .serial(_this.animateCircleWithRadiusHandler(null, null, 0, 2 * Math.PI, _prevDataItem.primaryColor, _this.innerRadius, _this.radius, false))
+    .serial(function (next) {
       _this.clear();
       _this.drawRing(0, 2 * Math.PI, _prevDataItem.primaryColor, "white", _this.radius);
-      setTimeout(function() { p_task.notifyJobComplete(); }, 100);
-    });    
-
-    $.each(_currentDataItem.items, function(index, item) {
+      next(100);
+    })
+    .serial(function (next) {
+      _this.clear();
+      _this.drawRing(0, 2 * Math.PI, _prevDataItem.primaryColor, "white", _this.radius);
+      next(100);
+    })
+    .serial(function (next) {
+      _this.clear();
+      _this.drawRing(0, 2 * Math.PI, _prevDataItem.primaryColor, "white", _this.radius);
+      next(100);
+    })
+    .serial(_currentDataItem.items.map(function(item, index) {
       if (item.name === _prevDataItem.name) {
         // erase all rings except the zoomout node (in anticlockwise direction)
-        task.addJob(_this.animateRingHandler(null, 30, Math.PI * 2 + item.startAngle, item.endAngle, "white", "white", _this.radius, true, 20));
+       return _this.animateRingHandler(null, 30, Math.PI * 2 + item.startAngle, item.endAngle, "white", "white", _this.radius, true, 20);
       }
-    });    
-
-    $.each(reorderItemsToRenderSequentially(_currentDataItem.items, _prevDataItem.name), function(index, item) {
-      task.addJob(_this.animateRingHandler(null, 0, item.endAngle, item.startAngle, item.primaryColor, "white", _this.radius, true, 5));      
-    });
-    
-    task.addJob(function (p_task) {
+      return null;      
+    }))
+    .serial(reorderItemsToRenderSequentially(_currentDataItem.items, _prevDataItem.name).map(function(item, index) {
+      return _this.animateRingHandler(null, 0, item.endAngle, item.startAngle, item.primaryColor, "white", _this.radius, true, 5);      
+    }))
+    .serial(function (next) {
       _this.drawCircle (0, 2 * Math.PI, _currentDataItem.primaryColor);
       _this.drawText(_currentDataItem.name, 
                      _currentDataItem.parent ? "white" : "black",
                      (_currentDataItem.valuePercentage && _currentDataItem.parent) && _currentDataItem.valuePercentage.toFixed(2) + "% of " + _currentDataItem.parent.name);
-      p_task.notifyJobComplete();
-    }); 
-    task.process(); 
+      next();
+    }) 
+    .done(function () {
+      p_this.enableHover = true;
+    })
+    .process();
   }
 
   //shuffle the items so the rings are rendered in sequence from the selected ring

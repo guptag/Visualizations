@@ -148,9 +148,12 @@
     this.isCompleted = false;
   }
 
+  donut.Task_WIP.createNew = function () {
+    return new donut.Task_WIP();
+  }
+
   _prototype  = global.donut.Task_WIP.prototype;
-
-
+  
   _prototype.serial = function(p_fn) {
       
      if (this.isCompleted) {
@@ -158,9 +161,20 @@
        return this;
      }
       
-     this.jobs.push({
-        execFn: p_fn
-     });     
+     if (typeof p_fn === "function") {
+        this.jobs.push({
+            execFn: p_fn
+        });
+     } else if (p_fn.length) {
+        var _this = this;
+         //remove nulls from array
+        var p_fnList = p_fn.filter(function(e){return e}); 
+        $.each(p_fnList, function(index, item) {
+          _this.jobs.push({
+            execFn: item
+          })
+        });
+     }    
       
      return this;
   };
@@ -170,6 +184,10 @@
 
       if (this.isCompleted) {
         console && console.log("Cannot add jobs to the completed task");
+        return this;
+      }
+
+      if (!p_fnList || p_fnList.length == 0) {
         return this;
       }
 
@@ -221,9 +239,11 @@
 
   var getNextCb = function(p_this) {
     var p_this = p_this;
-    return function next() {
-      executeNextTask(p_this);
-    }
+    return function next(msec) {
+      setTimeout(function() { 
+        executeNextTask(p_this);
+       }, msec || 0); 
+    };
   };
 
   var getReadyCb = function (p_this, meta) {
