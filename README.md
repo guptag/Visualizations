@@ -25,7 +25,7 @@
 		<li><del>Hover state.</del></li>
 		<li><del>Revamped Task interface based on "Flow (npm) module" inspiration.</del></li>
 		<li><del>Custom written non blocking helpers for animation (skipping Q.js)</del></li>
-		<li>Time for a latte!!!</li>
+		<li>Coffee break :) </li>
 	</ul>
 </p>
 
