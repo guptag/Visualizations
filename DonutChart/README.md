@@ -5,10 +5,10 @@
 </p>
 
 <h5>
- Demo: <a href="http://guptag.github.io/Visualizations/DonutChart/src/test.html" target="_blank">http://guptag.github.io/DonutChart/test.html</a>
+ Demo: <a href="http://guptag.github.io/Visualizations/DonutChart/src/test.html" target="_blank">http://guptag.github.io/Visualizations/DonutChart/test.html</a>
 </h5>
 
-![ScreenShot](http://guptag.github.io/DonutChart/src/img/donutchart.png)
+![ScreenShot](http://guptag.github.io/Visualizations/DonutChart/src/img/donutchart.png)
 
 <p>
 	<h3>Task List</h3>
