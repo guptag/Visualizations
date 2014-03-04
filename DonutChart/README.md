@@ -1,4 +1,4 @@
-# HTML5 Donut Chart
+### HTML5 Donut Chart
 
 
 Data driven chart control drawn leveraging HTML5 canvas element. All the interactions and animations are custom written in javascript (without using any animation libraries). The goal of this project is to learn the canvas api, implement an animation helper and a task scheduler to smoothly run zoom-in and zoom-out animations.
