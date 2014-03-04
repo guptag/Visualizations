@@ -4,7 +4,7 @@
 Data driven chart control drawn leveraging HTML5 canvas element. All the interactions and animations are custom written in javascript (without using any animation libraries). The goal of this project is to learn the canvas api, implement an animation helper and a task scheduler to smoothly run zoom-in and zoom-out animations.
 
 
-##### Demo: <a href="http://guptag.github.io/Visualizations/DonutChart/src/test.html" target="_blank">http://guptag.github.io/Visualizations/DonutChart/test.html</a>
+##### Demo: http://guptag.github.io/Visualizations/DonutChart/src/test.html
 
 
 ![ScreenShot](http://guptag.github.io/Visualizations/DonutChart/src/img/donutchart.png)
